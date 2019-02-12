@@ -1,0 +1,14 @@
+RPC Test/__history/
+*.dcu
+Wallet Core/__history/
+Wallet Core/Classes/__history/
+Wallet Core/Interfaces/__history/
+Wallet UI/__history/
+*.stat
+*.identcache
+*.local
+Utils Core/__history/
+*.exe
+RPC Core/__history/
+*.drc
+*.map

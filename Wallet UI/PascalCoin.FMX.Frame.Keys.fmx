@@ -1,0 +1,278 @@
+object KeysFrame: TKeysFrame
+  Align = Client
+  Size.Width = 547.000000000000000000
+  Size.Height = 471.000000000000000000
+  Size.PlatformDefault = False
+  object Layout1: TLayout
+    Align = Client
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 3.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Size.Width = 547.000000000000000000
+    Size.Height = 454.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object KeyListLayout: TLayout
+      Align = Top
+      Padding.Left = 3.000000000000000000
+      Padding.Top = 3.000000000000000000
+      Padding.Right = 3.000000000000000000
+      Padding.Bottom = 3.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 541.000000000000000000
+      Size.Height = 230.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object KeyListBox: TListBox
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 3.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 314.000000000000000000
+        Size.Height = 224.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        DisableFocusEffect = True
+        DefaultItemStyles.ItemStyle = ''
+        DefaultItemStyles.GroupHeaderStyle = ''
+        DefaultItemStyles.GroupFooterStyle = ''
+        OnItemClick = KeyListBoxItemClick
+        Viewport.Width = 310.000000000000000000
+        Viewport.Height = 220.000000000000000000
+      end
+      object ButtonsLayout: TLayout
+        Align = Left
+        Padding.Left = 3.000000000000000000
+        Padding.Top = 3.000000000000000000
+        Padding.Right = 3.000000000000000000
+        Padding.Bottom = 3.000000000000000000
+        Position.X = 320.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 220.000000000000000000
+        Size.Height = 224.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        object PasswordButton: TButton
+          Align = Top
+          Padding.Bottom = 2.000000000000000000
+          Margins.Bottom = 3.000000000000000000
+          Position.X = 3.000000000000000000
+          Position.Y = 3.000000000000000000
+          Size.Width = 214.000000000000000000
+          Size.Height = 30.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 4
+          Text = 'PasswordButton'
+          OnClick = PasswordButtonClick
+        end
+        object NewKeyButton: TButton
+          Align = Top
+          Padding.Bottom = 2.000000000000000000
+          Margins.Bottom = 3.000000000000000000
+          Position.X = 3.000000000000000000
+          Position.Y = 36.000000000000000000
+          Size.Width = 214.000000000000000000
+          Size.Height = 30.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 3
+          Text = 'New Key'
+          OnClick = NewKeyButtonClick
+        end
+        object ImportWalletButton: TButton
+          Align = Top
+          Padding.Bottom = 2.000000000000000000
+          Margins.Bottom = 3.000000000000000000
+          Position.X = 3.000000000000000000
+          Position.Y = 135.000000000000000000
+          Size.Width = 214.000000000000000000
+          Size.Height = 30.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Text = 'Restore Wallet'
+        end
+        object BackupWalletButton: TButton
+          Align = Top
+          Padding.Bottom = 2.000000000000000000
+          Margins.Bottom = 3.000000000000000000
+          Position.X = 3.000000000000000000
+          Position.Y = 102.000000000000000000
+          Size.Width = 214.000000000000000000
+          Size.Height = 30.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Text = 'Backup Wallet'
+        end
+        object KeyDeleteButton: TButton
+          Align = Top
+          Enabled = False
+          Padding.Bottom = 2.000000000000000000
+          Margins.Bottom = 3.000000000000000000
+          Position.X = 3.000000000000000000
+          Position.Y = 69.000000000000000000
+          Size.Width = 214.000000000000000000
+          Size.Height = 30.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Text = 'Delete Key'
+        end
+      end
+    end
+    object NameLayout: TLayout
+      Align = Top
+      Padding.Left = 3.000000000000000000
+      Padding.Top = 3.000000000000000000
+      Padding.Right = 3.000000000000000000
+      Padding.Bottom = 3.000000000000000000
+      Margins.Bottom = 3.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 233.000000000000000000
+      Size.Width = 541.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object KeyNameLabel: TLabel
+        Align = Left
+        Position.X = 3.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 75.000000000000000000
+        Size.Height = 42.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Key Name'
+        TabOrder = 0
+      end
+      object KeyNameValue: TLabel
+        Align = Left
+        Margins.Left = 3.000000000000000000
+        Position.X = 81.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 42.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Key Name'
+        TabOrder = 1
+      end
+      object ChangeKeyNameButton: TButton
+        Align = Right
+        Enabled = False
+        Position.X = 400.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 138.000000000000000000
+        Size.Height = 42.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Text = 'Change Key Name'
+        OnClick = ChangeKeyNameButtonClick
+      end
+    end
+    object KeyTypeLayout: TLayout
+      Align = Top
+      Padding.Left = 3.000000000000000000
+      Padding.Top = 3.000000000000000000
+      Padding.Right = 3.000000000000000000
+      Padding.Bottom = 3.000000000000000000
+      Margins.Bottom = 3.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 284.000000000000000000
+      Size.Width = 541.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object KeyTypeLabel: TLabel
+        Align = Left
+        Position.X = 3.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 75.000000000000000000
+        Size.Height = 42.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Key Type'
+        TabOrder = 0
+      end
+      object KeyTypeValue: TLabel
+        Align = Left
+        Margins.Left = 3.000000000000000000
+        Position.X = 81.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 42.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Key Type'
+        TabOrder = 1
+      end
+    end
+    object PublicKeyLayout: TLayout
+      Align = Top
+      Padding.Left = 3.000000000000000000
+      Padding.Top = 3.000000000000000000
+      Padding.Right = 3.000000000000000000
+      Padding.Bottom = 3.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 335.000000000000000000
+      Size.Width = 541.000000000000000000
+      Size.Height = 74.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object PublicKeyValue: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        ReadOnly = True
+        TextSettings.WordWrap = True
+        Align = Client
+        Margins.Left = 3.000000000000000000
+        Size.Width = 391.000000000000000000
+        Size.Height = 68.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Viewport.Width = 387.000000000000000000
+        Viewport.Height = 64.000000000000000000
+      end
+      object PublicKeyLabel: TLabel
+        Align = Left
+        Position.X = 3.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 75.000000000000000000
+        Size.Height = 68.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Public Key'
+        TabOrder = 1
+      end
+      object CopyPublicKeyBtn: TButton
+        Align = Right
+        Enabled = False
+        Position.X = 472.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 66.000000000000000000
+        Size.Height = 68.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Text = 'Copy'
+        OnClick = CopyPublicKeyBtnClick
+      end
+    end
+  end
+  object StateLabel: TLabel
+    Align = Top
+    Size.Width = 547.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    StyleLookup = 'labelstyle'
+    TextSettings.HorzAlign = Center
+    Text = 'StateLabel'
+    TabOrder = 1
+  end
+  object KeyImages: TImageList
+    Source = <>
+    Destination = <>
+    Left = 224
+    Top = 105
+  end
+  object FrameStandKeys: TFrameStand
+    AnimationShow = 'OnShow*'
+    AnimationHide = 'OnHide*'
+    CommonActionPrefix = 'ca_'
+    DefaultStyleName = 'framestand'
+    Left = 291
+    Top = 274
+  end
+end

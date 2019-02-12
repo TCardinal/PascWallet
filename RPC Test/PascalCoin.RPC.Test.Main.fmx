@@ -1,0 +1,136 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 493
+  ClientWidth = 829
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 829.000000000000000000
+    Size.Height = 493.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object NodeLayout: TLayout
+      Align = Top
+      Padding.Left = 3.000000000000000000
+      Padding.Top = 3.000000000000000000
+      Padding.Right = 3.000000000000000000
+      Padding.Bottom = 3.000000000000000000
+      Size.Width = 829.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object NodeLabel: TLabel
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 3.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 73.000000000000000000
+        Size.Height = 35.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Node'
+        TabOrder = 0
+      end
+      object NodeSelect: TComboBox
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 79.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 202.000000000000000000
+        Size.Height = 35.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        OnChange = NodeSelectChange
+      end
+      object NodeURLLabel: TLabel
+        Align = Left
+        Position.X = 284.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 405.000000000000000000
+        Size.Height = 35.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'NodeURLLabel'
+        TabOrder = 2
+      end
+    end
+    object ToolBar1: TToolBar
+      Padding.Left = 3.000000000000000000
+      Padding.Top = 3.000000000000000000
+      Padding.Right = 3.000000000000000000
+      Padding.Bottom = 3.000000000000000000
+      Position.Y = 41.000000000000000000
+      Size.Width = 829.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object AccountButton: TButton
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 3.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 34.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Account'
+        OnClick = AccountButtonClick
+      end
+      object AccountListButton: TButton
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 86.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 34.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Text = 'Account List'
+        OnClick = AccountListButtonClick
+      end
+      object NodeStatusButton: TButton
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 169.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 34.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 3
+        Text = 'Node Status'
+        OnClick = NodeStatusButtonClick
+      end
+      object WalletButton: TButton
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 252.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 34.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        Text = 'Wallet'
+        OnClick = WalletButtonClick
+      end
+    end
+    object ContentLayout: TLayout
+      Align = Client
+      Size.Width = 829.000000000000000000
+      Size.Height = 412.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+    end
+  end
+  object FrameStand1: TFrameStand
+    AnimationShow = 'OnShow*'
+    AnimationHide = 'OnHide*'
+    CommonActionPrefix = 'ca_'
+    DefaultStyleName = 'framestand'
+    Left = 384
+    Top = 112
+  end
+end

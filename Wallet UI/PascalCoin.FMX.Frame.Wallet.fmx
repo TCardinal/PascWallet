@@ -1,0 +1,92 @@
+inherited WalletFrame: TWalletFrame
+  Align = Client
+  Size.Width = 344.000000000000000000
+  Size.Height = 486.000000000000000000
+  object MainLayout: TLayout
+    Align = Client
+    Size.Width = 344.000000000000000000
+    Size.Height = 486.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object WalletPanel: TPanel
+      Align = Top
+      Margins.Bottom = 3.000000000000000000
+      Size.Width = 344.000000000000000000
+      Size.Height = 65.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object Label1: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, FontColor]
+        Margins.Top = 3.000000000000000000
+        Margins.Bottom = 3.000000000000000000
+        Position.Y = 31.000000000000000000
+        Size.Width = 344.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'listboxheaderlabel'
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.HorzAlign = Center
+        Text = '5,400.32 PASC'
+        TabOrder = 1
+      end
+      object MyBalanceLabel: TLabel
+        Align = Top
+        Margins.Bottom = 3.000000000000000000
+        Size.Width = 344.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'listboxheaderlabel'
+        TextSettings.HorzAlign = Center
+        Text = 'My Balance'
+        TabOrder = 2
+      end
+    end
+    object ToolBar2: TToolBar
+      Padding.Left = 3.000000000000000000
+      Padding.Right = 3.000000000000000000
+      Position.Y = 68.000000000000000000
+      Size.Width = 344.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object Label2: TLabel
+        Align = Left
+        Position.X = 3.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.HorzAlign = Center
+        Text = 'My Accounts'
+        TabOrder = 1
+      end
+      object AccountShow: TCheckBox
+        Align = Left
+        Position.X = 123.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Text = 'Show All Accounts'
+      end
+    end
+    object Grid1: TGrid
+      Align = Client
+      CanFocus = True
+      ClipChildren = True
+      Size.Width = 344.000000000000000000
+      Size.Height = 378.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Viewport.Width = 344.000000000000000000
+      Viewport.Height = 378.000000000000000000
+      object Column1: TColumn
+        Header = 'Account'
+        Size.Width = 161.000000000000000000
+      end
+      object Column2: TColumn
+        Header = 'Balance'
+      end
+    end
+  end
+end

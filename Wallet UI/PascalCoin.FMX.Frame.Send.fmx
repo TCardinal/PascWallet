@@ -1,0 +1,112 @@
+object SendFrame: TSendFrame
+  Size.Width = 320.000000000000000000
+  Size.Height = 240.000000000000000000
+  Size.PlatformDefault = False
+  object ButtonLayout: TLayout
+    Align = Bottom
+    Padding.Left = 2.000000000000000000
+    Padding.Top = 2.000000000000000000
+    Padding.Right = 2.000000000000000000
+    Padding.Bottom = 2.000000000000000000
+    Margins.Left = 2.000000000000000000
+    Margins.Top = 2.000000000000000000
+    Margins.Right = 2.000000000000000000
+    Margins.Bottom = 2.000000000000000000
+    Position.X = 2.000000000000000000
+    Position.Y = 201.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 37.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object SaveButton: TButton
+      Action = SendAction
+      Align = Right
+      Enabled = True
+      Images = DataModule1.StandardImages
+      ImageIndex = 8
+      Margins.Left = 2.000000000000000000
+      Margins.Top = 2.000000000000000000
+      Margins.Right = 2.000000000000000000
+      Margins.Bottom = 2.000000000000000000
+      Position.X = 244.945953369140600000
+      Position.Y = 4.000000000000000000
+      Size.Width = 67.054046630859380000
+      Size.Height = 29.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Send'
+    end
+    object CancelButton: TButton
+      Action = CancelAction
+      Align = Right
+      Enabled = True
+      Images = DataModule1.StandardImages
+      ImageIndex = 5
+      Margins.Left = 2.000000000000000000
+      Margins.Top = 2.000000000000000000
+      Margins.Right = 2.000000000000000000
+      Margins.Bottom = 2.000000000000000000
+      Position.X = 173.945953369140600000
+      Position.Y = 4.000000000000000000
+      Size.Width = 67.000000000000000000
+      Size.Height = 29.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+  end
+  object MainLayout: TLayout
+    Align = Client
+    Size.Width = 320.000000000000000000
+    Size.Height = 159.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+  end
+  object ToolBar1: TToolBar
+    Size.Width = 320.000000000000000000
+    Size.Height = 40.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object TitleLabel: TLabel
+      Align = Client
+      AutoSize = True
+      Padding.Left = 2.000000000000000000
+      Padding.Top = 2.000000000000000000
+      Padding.Right = 2.000000000000000000
+      Padding.Bottom = 2.000000000000000000
+      Margins.Left = 2.000000000000000000
+      Margins.Top = 2.000000000000000000
+      Margins.Right = 2.000000000000000000
+      Margins.Bottom = 2.000000000000000000
+      Size.Width = 273.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Send PascalCoin'
+      TabOrder = 0
+    end
+    object SpeedButton1: TSpeedButton
+      Align = FitRight
+      Images = DataModule1.StandardImages
+      ImageIndex = 6
+      Position.X = 277.000000000000000000
+      Size.Width = 43.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'additembutton'
+    end
+  end
+  object ActionList1: TActionList
+    Images = DataModule1.StandardImages
+    Left = 144
+    Top = 104
+    object SendAction: TAction
+      Text = 'SendAction'
+      ImageIndex = 8
+      ImageIndex = 8
+    end
+    object CancelAction: TAction
+      Text = 'Cancel'
+      ImageIndex = 5
+      ImageIndex = 5
+    end
+  end
+end

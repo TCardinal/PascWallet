@@ -1,0 +1,62 @@
+object AccountFrame: TAccountFrame
+  Size.Width = 504.000000000000000000
+  Size.Height = 362.000000000000000000
+  Size.PlatformDefault = False
+  object Layout1: TLayout
+    Align = Client
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 3.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Size.Width = 504.000000000000000000
+    Size.Height = 362.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Label1: TLabel
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 498.000000000000000000
+      Size.Height = 21.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Account Number'
+      TabOrder = 0
+      object AcctNum: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 0
+        Text = '865820'
+        Position.X = 100.000000000000000000
+        Size.Width = 125.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object Button1: TButton
+        Position.X = 232.000000000000000000
+        TabOrder = 1
+        Text = 'Go!'
+        OnClick = Button1Click
+      end
+    end
+    object ListBox1: TListBox
+      Position.X = 16.000000000000000000
+      Position.Y = 48.000000000000000000
+      Size.Width = 377.000000000000000000
+      Size.Height = 289.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      Viewport.Width = 377.000000000000000000
+      Viewport.Height = 289.000000000000000000
+    end
+    object PubKeyCopy: TButton
+      Position.X = 400.000000000000000000
+      Position.Y = 56.000000000000000000
+      TabOrder = 2
+      Text = 'PubKeyCopy'
+      OnClick = PubKeyCopyClick
+    end
+  end
+end

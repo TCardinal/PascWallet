@@ -1,0 +1,117 @@
+object WalletFrame: TWalletFrame
+  Align = Client
+  Size.Width = 831.000000000000000000
+  Size.Height = 501.000000000000000000
+  Size.PlatformDefault = False
+  object ScrollBox1: TScrollBox
+    Align = Client
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 3.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Size.Width = 566.000000000000000000
+    Size.Height = 501.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Viewport.Width = 566.000000000000000000
+    Viewport.Height = 501.000000000000000000
+    object ExportedKeyEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Top
+      TabOrder = 0
+      ReadOnly = True
+      Position.X = 3.000000000000000000
+      Position.Y = 349.000000000000000000
+      Margins.Bottom = 3.000000000000000000
+      Size.Width = 560.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TextPrompt = 'exported key'
+    end
+    object Memo1: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      Align = Top
+      Margins.Bottom = 3.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 560.000000000000000000
+      Size.Height = 343.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Viewport.Width = 556.000000000000000000
+      Viewport.Height = 339.000000000000000000
+    end
+    object PastedKeyEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Top
+      TabOrder = 2
+      Position.X = 3.000000000000000000
+      Position.Y = 374.000000000000000000
+      Margins.Bottom = 3.000000000000000000
+      Size.Width = 560.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TextPrompt = 'paste exported key to compaare'
+      OnChange = PastedKeyEditChange
+    end
+    object KeyCompareLabel: TLabel
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 399.000000000000000000
+      Size.Width = 560.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'KeyCompareLabel'
+      TabOrder = 3
+    end
+  end
+  object Layout1: TLayout
+    Align = Left
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 3.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Size.Width = 265.000000000000000000
+    Size.Height = 501.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object LoadButton: TButton
+      Align = Top
+      Margins.Bottom = 3.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 259.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Load'
+      OnClick = LoadButtonClick
+    end
+    object ListBox1: TListBox
+      Align = Client
+      Size.Width = 259.000000000000000000
+      Size.Height = 450.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      OnItemClick = ListBox1ItemClick
+      Viewport.Width = 255.000000000000000000
+      Viewport.Height = 446.000000000000000000
+    end
+    object StateLabel: TLabel
+      Align = Top
+      Margins.Bottom = 3.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 28.000000000000000000
+      Size.Width = 259.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'StateLabel'
+      TabOrder = 2
+    end
+  end
+end

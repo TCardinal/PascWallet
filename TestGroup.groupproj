@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{EFD67B6A-87D2-4E84-8317-FB09152089C4}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="RPC Test\RPCTest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="UnitTests\pascalCoin_UnitTests.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="RPCTest">
+        <MSBuild Projects="RPC Test\RPCTest.dproj"/>
+    </Target>
+    <Target Name="RPCTest:Clean">
+        <MSBuild Projects="RPC Test\RPCTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RPCTest:Make">
+        <MSBuild Projects="RPC Test\RPCTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="pascalCoin_UnitTests">
+        <MSBuild Projects="UnitTests\pascalCoin_UnitTests.dproj"/>
+    </Target>
+    <Target Name="pascalCoin_UnitTests:Clean">
+        <MSBuild Projects="UnitTests\pascalCoin_UnitTests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pascalCoin_UnitTests:Make">
+        <MSBuild Projects="UnitTests\pascalCoin_UnitTests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="RPCTest;pascalCoin_UnitTests"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="RPCTest:Clean;pascalCoin_UnitTests:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="RPCTest:Make;pascalCoin_UnitTests:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

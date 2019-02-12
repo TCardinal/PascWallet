@@ -1,0 +1,39 @@
+object NodeStatusFrame: TNodeStatusFrame
+  Size.Width = 690.000000000000000000
+  Size.Height = 383.000000000000000000
+  Size.PlatformDefault = False
+  object Go: TButton
+    Position.X = 8.000000000000000000
+    Position.Y = 8.000000000000000000
+    TabOrder = 0
+    Text = 'Go'
+    OnClick = GoClick
+  end
+  object ListBox1: TListBox
+    Position.X = 5.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 377.000000000000000000
+    Size.Height = 289.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    DisableFocusEffect = True
+    DefaultItemStyles.ItemStyle = ''
+    DefaultItemStyles.GroupHeaderStyle = ''
+    DefaultItemStyles.GroupFooterStyle = ''
+    Viewport.Width = 373.000000000000000000
+    Viewport.Height = 285.000000000000000000
+  end
+  object Memo1: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Position.X = 392.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 289.000000000000000000
+    Size.Height = 289.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    Viewport.Width = 289.000000000000000000
+    Viewport.Height = 289.000000000000000000
+  end
+end

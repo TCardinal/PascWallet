@@ -1,0 +1,81 @@
+object AccountsList: TAccountsList
+  Size.Width = 452.000000000000000000
+  Size.Height = 353.000000000000000000
+  Size.PlatformDefault = False
+  object Layout1: TLayout
+    Align = Client
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 3.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Size.Width = 452.000000000000000000
+    Size.Height = 353.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Label1: TLabel
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 446.000000000000000000
+      Size.Height = 21.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Enc Public Key'
+      TabOrder = 0
+      object PubKey: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 0
+        Text = 
+          '3GhhbourL5nUHEze1UWHDEdcCX9UMmtNTextd72qDcMuFcwcxnuGV89q2ThCKTKn' +
+          'pg6bAKrQu5JAiFWL1zoUTmq1BQUmDf4yC3VeCd'
+        Position.X = 100.000000000000000000
+        Size.Width = 237.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object Button1: TButton
+        Align = Right
+        Position.X = 405.000000000000000000
+        Size.Width = 41.000000000000000000
+        Size.Height = 21.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Text = 'Go!'
+        OnClick = Button1Click
+      end
+      object PasteButton: TButton
+        Align = Right
+        Margins.Right = 3.000000000000000000
+        Position.X = 355.000000000000000000
+        Size.Width = 47.000000000000000000
+        Size.Height = 21.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Text = 'Paste'
+        OnClick = PasteButtonClick
+      end
+    end
+    object ListBox1: TListBox
+      Position.X = 16.000000000000000000
+      Position.Y = 56.000000000000000000
+      Size.Width = 377.000000000000000000
+      Size.Height = 289.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      Viewport.Width = 373.000000000000000000
+      Viewport.Height = 285.000000000000000000
+    end
+    object Label2: TLabel
+      Position.X = 16.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 377.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Number of Accounts: 0'
+      TabOrder = 2
+    end
+  end
+end
