@@ -1,0 +1,175 @@
+object PayloadTest: TPayloadTest
+  Align = Client
+  Size.Width = 513.000000000000000000
+  Size.Height = 458.000000000000000000
+  Size.PlatformDefault = False
+  object Layout1: TLayout
+    Align = Top
+    Margins.Bottom = 5.000000000000000000
+    Position.Y = 38.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object Label1: TLabel
+      Align = Left
+      Size.Width = 120.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Payload'
+      TabOrder = 0
+    end
+    object Payload: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      Text = 'EXAMPLE PAYLOAD'
+      Size.Width = 393.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object Layout2: TLayout
+    Align = Top
+    Margins.Bottom = 5.000000000000000000
+    Position.Y = 76.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object Label2: TLabel
+      Align = Left
+      Size.Width = 120.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Method'
+      TabOrder = 0
+    end
+    object EncMethod: TComboBox
+      Align = Left
+      Items.Strings = (
+        'Enc Public Key'
+        'b58 Public Key'
+        'Password (AES)')
+      ItemIndex = 0
+      Position.X = 120.000000000000000000
+      Size.Width = 161.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+    end
+  end
+  object Layout3: TLayout
+    Align = Top
+    Margins.Bottom = 5.000000000000000000
+    Position.Y = 113.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Label3: TLabel
+      Align = Left
+      Size.Width = 120.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Key/Password'
+      TabOrder = 0
+    end
+    object PayloadEncryptor: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      Size.Width = 393.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object Layout4: TLayout
+    Align = Top
+    Position.Y = 185.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object Button1: TButton
+      Align = Center
+      TabOrder = 0
+      Text = 'Go'
+      OnClick = Button1Click
+    end
+  end
+  object Memo1: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Align = Client
+    Size.Width = 513.000000000000000000
+    Size.Height = 223.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    Viewport.Width = 513.000000000000000000
+    Viewport.Height = 223.000000000000000000
+  end
+  object Layout5: TLayout
+    Align = MostTop
+    Margins.Bottom = 5.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    object Label4: TLabel
+      Align = Left
+      Size.Width = 120.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Load Values'
+      TabOrder = 0
+    end
+    object ComboBox1: TComboBox
+      Align = Left
+      Items.Strings = (
+        'Clear'
+        'Set 1')
+      ItemIndex = 0
+      Margins.Right = 5.000000000000000000
+      Position.X = 120.000000000000000000
+      Size.Width = 153.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+    end
+    object Button2: TButton
+      Align = Left
+      Position.X = 278.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Apply'
+      OnClick = Button2Click
+    end
+  end
+  object Layout6: TLayout
+    Align = Top
+    Position.Y = 151.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 34.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 6
+    object Label5: TLabel
+      Align = Left
+      Size.Width = 120.000000000000000000
+      Size.Height = 34.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Private Key'
+      TabOrder = 0
+    end
+    object PrivateKey: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      Size.Width = 393.000000000000000000
+      Size.Height = 34.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+end

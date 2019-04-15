@@ -55,12 +55,14 @@ object UnlockFrame: TUnlockFrame
       Position.Y = 112.000000000000000000
       TabOrder = 3
       Text = 'OK'
+      OnClick = OKButtonClick
     end
     object CancelButton: TButton
       Position.X = 216.000000000000000000
       Position.Y = 112.000000000000000000
       TabOrder = 4
       Text = 'Cancel'
+      OnClick = CancelButtonClick
     end
   end
 end

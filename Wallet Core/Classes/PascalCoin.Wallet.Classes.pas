@@ -1,161 +1,189 @@
 /// <summary>
-///   <para>
-///     These components are for reading and writing the Wallet Keys to a
-///     local file.
-///   </para>
-///   <para>
-///     The File Structure is as follows:
-///   </para>
-///   <list type="table">
-///     <listheader>
-///       <term>Byte Length</term>
-///       <description>Description</description>
-///     </listheader>
-///     <item>
-///       <term>2</term>
-///       <description><i>idLength</i>: Integer- Length of wallet
-///         identifier.</description>
-///     </item>
-///     <item>
-///       <term>idLength</term>
-///       <description>Needs to match the const CT_PrivateKeyFile_Magic
-///         if it is a valid wallet</description>
-///     </item>
-///     <item>
-///       <term>4 Bytes</term>
-///       <description>File Version</description>
-///     </item>
-///     <item>
-///       <term>4 Bytes</term>
-///       <description>Number of Keys</description>
-///     </item>
-///     <item>
-///       <term>Keys</term>
-///       <description>For each key:</description>
-///     </item>
-///     <item>
-///       <term>2 Bytes</term>
-///       <description><i>keyNameLength</i>: Length of Key Name</description>
-///     </item>
-///     <item>
-///       <term>KeyNameLength</term>
-///       <description>Key Name</description>
-///     </item>
-///   </list>
+/// <para>
+/// These components are for reading and writing the Wallet Keys to a
+/// local file.
+/// </para>
+/// <para>
+/// The File Structure is as follows:
+/// </para>
+/// <list type="table">
+/// <listheader>
+/// <term>Byte Length</term>
+/// <description>Description</description>
+/// </listheader>
+/// <item>
+/// <term>2</term>
+/// <description><i>idLength</i>: Integer- Length of wallet
+/// identifier.</description>
+/// </item>
+/// <item>
+/// <term>idLength</term>
+/// <description>Needs to match the const CT_PrivateKeyFile_Magic
+/// if it is a valid wallet</description>
+/// </item>
+/// <item>
+/// <term>4 Bytes</term>
+/// <description>File Version</description>
+/// </item>
+/// <item>
+/// <term>4 Bytes</term>
+/// <description>Number of Keys</description>
+/// </item>
+/// <item>
+/// <term>Keys</term>
+/// <description>For each key:</description>
+/// </item>
+/// <item>
+/// <term>2 Bytes</term>
+/// <description><i>keyNameLength</i>: Length of Key Name</description>
+/// </item>
+/// <item>
+/// <term>KeyNameLength</term>
+/// <description>Key Name</description>
+/// </item>
+/// </list>
 /// </summary>
 unit PascalCoin.Wallet.Classes;
-
 
 interface
 
 uses System.Classes, System.Generics.Collections, System.SysUtils,
-PascalCoin.Wallet.Interfaces;
+  PascalCoin.Wallet.Interfaces, PascalCoin.Utils.Interfaces, Spring;
 
 Type
 
-TWallet = class(TInterfacedObject, IWallet)
-private
-  FKeyTools: IKeyTools;
-  FStreamOp: IStreamOp;
-  FPassword: String;
+  TOnNeedPassword = procedure(const APassword: string) of object;
 
-  /// <summary>
-  ///   This is used to lock wallets that aren't encrypted, just a way to
-  ///   prevent silly mistakes - a double check
-  /// </summary>
-  FLocked: Boolean;
-  FState: TEncryptionState;
-  FWalletFileStream: TFileStream;
-  FIsReadingStream: Boolean;
-  FKeys: TList<IWalletKey>;
-  FFileVersion: Integer;
-  FOnLockChange: TProc<boolean>;
-  procedure LoadWallet;
-  function SetPassword(const Value: string): boolean;
-protected
-  function GetWalletKey(const Index: Integer): IWalletKey;
+  TWallet = class(TInterfacedObject, IWallet)
+  private
+    FKeyTools: IKeyTools;
+    FStreamOp: IStreamOp;
+    FPassword: String;
 
-  function GetState: TEncryptionState;
-  function GetLocked: Boolean;
-  procedure Lock;
-  function Unlock(const APassword: string): boolean;
-  procedure SetOnLockChange(Value: TProc<boolean>);
+    /// <summary>
+    /// This is used to lock wallets that aren't encrypted, just a way to
+    /// prevent silly mistakes - a double check
+    /// </summary>
+    FLocked: Boolean;
+    FState: TEncryptionState;
+    FWalletFileStream: TFileStream;
+    FIsReadingStream: Boolean;
+    // Probably better to use a TDictionary for this
+    FKeys: TList<IWalletKey>;
+    FFileVersion: Integer;
+    FOnLockChange: Event<TPascalCoinBooleanEvent>;
+    procedure LoadWallet;
+    procedure LoadWalletFromStream(Stream: TStream);
 
-  function ChangePassword(const Value: string): boolean;
+  protected
+    function SetPassword(const Value: string): Boolean;
+    function GetWalletKey(const Index: Integer): IWalletKey;
 
-  function GetWalletFileName: String;
-  function AddWalletKey(Value: IWalletKey): Integer;
-  function CreateNewKey(const AKeyType: TKeyType; const AName: string): Integer;
-  function Count: Integer;
-  procedure SaveToStream;
+    function GetState: TEncryptionState;
+    function GetLocked: Boolean;
+    function GetOnLockChange: IEvent<TPascalCoinBooleanEvent>;
 
-public
-  constructor Create(ATools: IKeyTools; AStreamOp: IStreamOp);
-  destructor Destroy; override;
-  procedure LoadWalletFromStream(Stream: TStream);
-end;
+    function Lock: Boolean;
+    function Unlock(const APassword: string): Boolean;
 
-TWalletKey = class(TInterfacedObject, IWalletKey)
-private
-  FKeyTools: IKeyTools;
-  FName: String;
-  FAccountKey: IPublicKey;
-  FCryptedKey: TRawBytes;
-  FPrivateKey: IPrivateKey;
-  FEncryptionState: TEncryptionState;
-  procedure Clear;
-protected
-  function GetName: String;
-  procedure SetName(const Value: String);
-  function GetPublicKey: IPublicKey;
-  function GetCryptedKey: TRawBytes;
-  procedure SetCryptedKey(const Value: TRawBytes);
-  function GetPrivateKey: IPrivateKey;
-  function GetState: TEncryptionState;
+    function ChangePassword(const Value: string): Boolean;
 
-  function HasPrivateKey : boolean;
+    function GetWalletFileName: String;
+    function AddWalletKey(Value: IWalletKey): Integer;
+    function CreateNewKey(const AKeyType: TKeyType;
+      const AName: string): Integer;
+    function Count: Integer;
+    procedure SaveToStream;
 
-public
-  constructor Create(AKeyTools: IKeyTools);
-end;
+    function FindKey(const Value: string;
+      const AEncoding: TKeyEncoding = TKeyEncoding.Hex): IWalletKey;
+    procedure PublicKeysToStrings(Value: TStrings;
+      const AEncoding: TKeyEncoding);
 
-TPublicKey = class(TInterfacedObject, IPublicKey)
-private
-  FKeyTools: IKeyTools;
-  FNID: Word;
-  FX: TBytes;
-  FY: TBytes;
-protected
-  function GetNID: Word;
-  procedure SetNID(const Value: word);
-  function GetX: TBytes;
-  procedure SetX(const Value: TBytes);
-  function GetY: TBytes;
-  procedure SetY(const Value: TBytes);
-  function GetKeyType: TKeyType;
-  procedure SetKeyType(const Value: TKeyType);
-  function GetKeyTypeAsStr: string;
-  procedure SetKeyTypeAsStr(const Value: string);
+    property Password: string read FPassword;
+  public
+    constructor Create(ATools: IKeyTools; AStreamOp: IStreamOp);
+    destructor Destroy; override;
 
-  function GetAsHexStr: string;
-  function GetAsBase58: string;
-public
-  constructor Create(AKeyTools: IKeyTools);
-end;
+  end;
 
+  TWalletKey = class(TInterfacedObject, IWalletKey)
+  private
+    FWallet: TWallet;
+    FKeyTools: IKeyTools;
+    FName: String;
+    FPublicKey: IPublicKey;
+    FCryptedKey: TRawBytes;
+    FEncryptionState: TEncryptionState;
+    procedure Clear;
+  protected
+    function GetName: String;
+    procedure SetName(const Value: String);
+    function GetPublicKey: IPublicKey;
+    function GetCryptedKey: TRawBytes;
+    procedure SetCryptedKey(const Value: TRawBytes);
+    function GetPrivateKey: IPrivateKey;
+    function GetState: TEncryptionState;
+    function GetKeyType: TKeyType;
+    function HasPrivateKey: Boolean;
+
+  public
+    constructor Create(AKeyTools: IKeyTools; AWallet: TWallet);
+  end;
+
+  TPublicKey = class(TInterfacedObject, IPublicKey)
+  private
+    FKeyTools: IKeyTools;
+    FNID: Word;
+    FX: TBytes;
+    FY: TBytes;
+  protected
+    function GetNID: Word;
+    procedure SetNID(const Value: Word);
+    function GetX: TBytes;
+    procedure SetX(const Value: TBytes);
+    function GetY: TBytes;
+    procedure SetY(const Value: TBytes);
+    function GetKeyType: TKeyType;
+    procedure SetKeyType(const Value: TKeyType);
+    function GetKeyTypeAsStr: string;
+    procedure SetKeyTypeAsStr(const Value: string);
+
+    function GetAsHexStr: string;
+    function GetAsBase58: string;
+  public
+    constructor Create(AKeyTools: IKeyTools);
+  end;
+
+  TPrivateKey = class(TInterfacedObject, IPrivateKey)
+  private
+    FKey: TRawBytes;
+    FKeyType: TKeyType;
+  protected
+    function GetKey: TRawBytes;
+    procedure SetKey(Value: TRawBytes);
+    function GetKeyType: TKeyType;
+    procedure SetKeyType(const Value: TKeyType);
+    function GetAsHexStr: String;
+  public
+
+    constructor Create; overload;
+    {$IFDEF UNITTEST}
+    constructor Create(AHexKey: string; const AKeyType: TKeyType); overload;
+    {$ENDIF UNITTEST}
+  end;
 
 implementation
 
 uses System.IOUtils, System.Rtti,
-PascalCoin.Utils.Classes, PascalCoin.ResourceStrings, PascalCoin.Helpers,
-ClpIAsymmetricCipherKeyPair, PascalCoin.FMX.Strings;
+  PascalCoin.Utils.Classes, PascalCoin.ResourceStrings, PascalCoin.Helpers,
+  ClpIAsymmetricCipherKeyPair, PascalCoin.FMX.Strings, clpEncoders;
 
 Const
   CT_PrivateKeyFile_Magic = 'TWalletKeys';
   CT_PrivateKeyFile_Version = 100;
 
-
-{ TWallet }
+  { TWallet }
 
 function TWallet.AddWalletKey(Value: IWalletKey): Integer;
 begin
@@ -178,29 +206,31 @@ begin
   LoadWallet;
 end;
 
-function TWallet.CreateNewKey(const AKeyType: TKeyType; const AName: string): Integer;
+function TWallet.CreateNewKey(const AKeyType: TKeyType;
+  const AName: string): Integer;
 var
   lWalletKey: IWalletKey;
   lKeyPair: IAsymmetricCipherKeyPair;
   lPrivateKey: TRawBytes;
   lPrivateKeyAsHex: String;
 begin
-  lWalletKey := TWalletKey.Create(FKeyTools);
+  lWalletKey := TWalletKey.Create(FKeyTools, Self);
   lWalletKey.Name := AName;
   lWalletKey.PublicKey.KeyType := AKeyType;
-  //This is a bit Nasty, but will do until UGO looks into it
+  // This is a bit Nasty, but will do until UGO looks into it
   repeat
     lKeyPair := FKeyTools.GenerateECKeyPair(AKeyType);
-    lWalletKey.PublicKey.X:= FKeyTools.GetPublicKeyAffineX(LKeyPair);
-    lWalletKey.PublicKey.Y := FKeyTools.GetPublicKeyAffineY(LKeyPair);
-  until (AKeyType <> TKeyType.SECP256K1) or lWalletKey.PublicKey.AsBase58.StartsWith('3Ghhb');
+    lWalletKey.PublicKey.X := FKeyTools.GetPublicKeyAffineX(lKeyPair);
+    lWalletKey.PublicKey.Y := FKeyTools.GetPublicKeyAffineY(lKeyPair);
+  until (AKeyType <> TKeyType.SECP256K1) or
+    lWalletKey.PublicKey.AsBase58.StartsWith('3Ghhb');
 
   lPrivateKey := FKeyTools.GetPrivateKey(lKeyPair);
-  lPrivateKeyAsHex :=
-     FKeyTools.GetPascalCoinPrivateKeyAsHexString(AKeyType, lPrivateKey);
+  lPrivateKeyAsHex := FKeyTools.GetPascalCoinPrivateKeyAsHexString(AKeyType,
+    lPrivateKey);
 
-  lWalletKey.CryptedKey :=
-     FKeyTools.EncryptPascalCoinPrivateKey(lPrivateKeyAsHex, FPassword);
+  lWalletKey.CryptedKey := FKeyTools.EncryptPascalCoinPrivateKey
+    (lPrivateKeyAsHex, FPassword);
 
   result := AddWalletKey(lWalletKey);
   SaveToStream;
@@ -214,10 +244,34 @@ begin
   inherited;
 end;
 
+function TWallet.FindKey(const Value: string; const AEncoding: TKeyEncoding)
+  : IWalletKey;
+var
+  lKey: IWalletKey;
+begin
+  // If Keys was a TDictioary this would be faster
+  for lKey in FKeys do
+  begin
+    case AEncoding of
+      TKeyEncoding.Hex:
+        if lKey.PublicKey.AsHexStr = Value then
+          Exit(lKey);
+      TKeyEncoding.Base58:
+        if lKey.PublicKey.AsBase58 = Value then
+          Exit(lKey);
+    end;
+  end;
+end;
+
 function TWallet.GetLocked: Boolean;
 begin
   result := ((FState = esPlainText) and FLocked) or
-            ((FState <> esPlainText) and (FPassword = ''));
+    ((FState <> esPlainText) and (FPassword = ''));
+end;
+
+function TWallet.GetOnLockChange: IEvent<TPascalCoinBooleanEvent>;
+begin
+  result := FOnLockChange;
 end;
 
 function TWallet.GetState: TEncryptionState;
@@ -227,12 +281,12 @@ end;
 
 function TWallet.GetWalletFileName: String;
 begin
-  {$IFDEF TESTNET}
-  Result := TPath.Combine(TPath.GetHomePath, 'PascalCoin_URBAN');
-  {$ELSE}
-  Result := TPath.Combine(TPath.GetHomePath, 'PascalCoin');
-  {$ENDIF}
-  Result := TPath.Combine(Result, 'WalletKeys.dat');
+{$IFDEF TESTNET}
+  result := TPath.Combine(TPath.GetHomePath, 'PascalCoin_URBAN');
+{$ELSE}
+  result := TPath.Combine(TPath.GetHomePath, 'PascalCoin');
+{$ENDIF}
+  result := TPath.Combine(result, 'WalletKeys.dat');
 end;
 
 function TWallet.GetWalletKey(const Index: Integer): IWalletKey;
@@ -241,7 +295,8 @@ begin
 end;
 
 procedure TWallet.LoadWallet;
-var lFileName: string;
+var
+  lFileName: string;
 begin
   FIsReadingStream := True;
   try
@@ -254,11 +309,11 @@ begin
     lFileName := GetWalletFileName;
 
     if TFile.Exists(lFileName) then
-       FWalletFileStream := TFileStream.Create(lFileName,
-            fmOpenReadWrite or fmShareDenyWrite)
+      FWalletFileStream := TFileStream.Create(lFileName, fmOpenReadWrite or
+        fmShareDenyWrite)
     else
       FWalletFileStream := TFileStream.Create(lFileName,
-            fmCreate or fmShareDenyWrite);
+        fmCreate or fmShareDenyWrite);
 
     FWalletFileStream.Position := 0;
 
@@ -267,7 +322,7 @@ begin
       try
         LoadWalletFromStream(FWalletFileStream);
         if Count > 0 then
-           FState := FKeys[0].State;
+          FState := FKeys[0].State;
       except
         FWalletFileStream.Free;
       end;
@@ -280,111 +335,128 @@ begin
 end;
 
 procedure TWallet.LoadWalletFromStream(Stream: TStream);
-var s: String;
-    lRaw, lX, LY: TRawBytes;
-    nKeys: Integer;
-    I: Integer;
-    lWalletKey: IWalletKey;
-    lNid: Word;
-    lStr: String;
+var
+  s: String;
+  lRaw, LX, LY: TRawBytes;
+  nKeys: Integer;
+  I: Integer;
+  lWalletKey: IWalletKey;
+  lNid: Word;
+  lStr: String;
 begin
 
   FStreamOp.ReadRawBytes(Stream, lRaw);
 
   lStr := TEncoding.ASCII.GetString(lRaw);
 
-  if Not (String.Compare(lStr, CT_PrivateKeyFile_Magic) = 0) then
-     raise Exception.Create(InvalidStream + ': ' + Classname);
-      // Read version:
-  Stream.Read(FFileVersion,4);
-  if (FFileVersion<>CT_PrivateKeyFile_Version) then begin
+  if Not(String.Compare(lStr, CT_PrivateKeyFile_Magic) = 0) then
+    raise Exception.Create(InvalidStream + ': ' + Classname);
+  // Read version:
+  Stream.Read(FFileVersion, 4);
+  if (FFileVersion <> CT_PrivateKeyFile_Version) then
+  begin
     // Old version
-    Stream.Position := Stream.Position-4;
-    raise Exception.Create(ClassName + ':' + InvalidPrivateKeysFileVersion + ': ' +
-       FFileVersion.ToString);
+    Stream.Position := Stream.Position - 4;
+    raise Exception.Create(Classname + ':' + InvalidPrivateKeysFileVersion +
+      ': ' + FFileVersion.ToString);
   end;
 
   Stream.Read(nKeys, 4);
   for I := 0 to nKeys - 1 do
   begin
-     lWalletKey := TWalletKey.Create(FKeyTools);
+    lWalletKey := TWalletKey.Create(FKeyTools, Self);
 
-     FStreamOp.ReadRawBytes(Stream, lRaw);
-     lWalletKey.Name :=  TEncoding.ASCII.GetString(lRaw);
+    FStreamOp.ReadRawBytes(Stream, lRaw);
+    lWalletKey.Name := TEncoding.ASCII.GetString(lRaw);
 
-     Stream.Read(lNid, SizeOf(lNid));
-     lWalletKey.PublicKey.NID := lNid;
+    Stream.Read(lNid, SizeOf(lNid));
+    lWalletKey.PublicKey.NID := lNid;
 
-     FStreamOp.ReadRawBytes(Stream, lX);
-     lWalletKey.PublicKey.X := lX;
+    FStreamOp.ReadRawBytes(Stream, LX);
+    lWalletKey.PublicKey.X := LX;
 
-     FStreamOp.ReadRawBytes(Stream, lY);
-     lWalletKey.PublicKey.Y := lY;
+    FStreamOp.ReadRawBytes(Stream, LY);
+    lWalletKey.PublicKey.Y := LY;
 
-     FStreamOp.ReadRawBytes(Stream, lRaw);
-     lWalletKey.CryptedKey := lRaw;
+    FStreamOp.ReadRawBytes(Stream, lRaw);
+    lWalletKey.CryptedKey := lRaw;
 
-     AddWalletKey(lWalletKey);
+    AddWalletKey(lWalletKey);
 
-//        P := PWalletKey(FSearchableKeys[j]);
-//        P^.CryptedKey := wk.CryptedKey; // Adding encrypted data
-      end;
+  end;
 
 end;
 
-procedure TWallet.Lock;
+function TWallet.Lock: Boolean;
 begin
+  result := True;
   if not FLocked then
   begin
     FLocked := True;
     FPassword := '';
-    if Assigned(FOnLockChange) then
-       FOnLockChange(True);
+    FOnLockChange.Invoke(True);
+  end;
+end;
+
+procedure TWallet.PublicKeysToStrings(Value: TStrings;
+  const AEncoding: TKeyEncoding);
+var
+  lKey: IWalletKey;
+begin
+  for lKey in FKeys do
+  begin
+    case AEncoding of
+      TKeyEncoding.Base58:
+        Value.Add(lKey.PublicKey.AsBase58);
+      TKeyEncoding.Hex:
+        Value.Add(lKey.PublicKey.AsHexStr);
+    end;
   end;
 end;
 
 procedure TWallet.SaveToStream;
-var i : Integer;
-    W : IWalletKey;
-    lNID: Word;
+var
+  I: Integer;
+  W: IWalletKey;
+  lNid: Word;
 begin
-  if FIsReadingStream then exit;
-  if Not Assigned(FWalletFileStream) then exit;
+  if FIsReadingStream then
+    Exit;
+  if Not Assigned(FWalletFileStream) then
+    Exit;
   FWalletFileStream.Size := 0;
-  FWalletFileStream.Position:=0;
-  FStreamOp.WriteRawBytes(FWalletFileStream,TEncoding.ASCII.GetBytes(CT_PrivateKeyFile_Magic));
-  i := CT_PrivateKeyFile_Version;
-  FWalletFileStream.Write(i,4);
-  i := FKeys.Count;
-  FWalletFileStream.Write(i,4);
-  for i := 0 to FKeys.Count - 1 do
+  FWalletFileStream.Position := 0;
+  FStreamOp.WriteRawBytes(FWalletFileStream,
+    TEncoding.ASCII.GetBytes(CT_PrivateKeyFile_Magic));
+  I := CT_PrivateKeyFile_Version;
+  FWalletFileStream.Write(I, 4);
+  I := FKeys.Count;
+  FWalletFileStream.Write(I, 4);
+  for I := 0 to FKeys.Count - 1 do
   begin
     W := FKeys[I];
-    FStreamOp.WriteRawBytes(FWalletFileStream,TEncoding.ASCII.GetBytes(W.Name));
-    lNID := W.PublicKey.NID;
-    FWalletFileStream.Write(lNID,sizeof(lNID));
-    FStreamOp.WriteRawBytes(FWalletFileStream,W.PublicKey.X);
-    FStreamOp.WriteRawBytes(FWalletFileStream,W.PublicKey.Y);
-    FStreamOp.WriteRawBytes(FWalletFileStream,W.CryptedKey);
+    FStreamOp.WriteRawBytes(FWalletFileStream,
+      TEncoding.ASCII.GetBytes(W.Name));
+    lNid := W.PublicKey.NID;
+    FWalletFileStream.Write(lNid, SizeOf(lNid));
+    FStreamOp.WriteRawBytes(FWalletFileStream, W.PublicKey.X);
+    FStreamOp.WriteRawBytes(FWalletFileStream, W.PublicKey.Y);
+    FStreamOp.WriteRawBytes(FWalletFileStream, W.CryptedKey);
   end;
 end;
 
-procedure TWallet.SetOnLockChange(Value: TProc<boolean>);
-begin
-  FOnLockChange := Value;
-end;
-
-function TWallet.SetPassword(const Value: string): boolean;
-var lPlainKey: TRawBytes;
+function TWallet.SetPassword(const Value: string): Boolean;
+var
+  lPlainKey: TRawBytes;
 begin
   if Value = FPassword then
-     Exit(True);
+    Exit(True);
 
   if FState = esPlainText then
-     raise exception.Create(STheWalletIsNotEncrypted);
+    raise Exception.Create(STheWalletIsNotEncrypted);
 
   if (FPassword <> '') then
-     raise Exception.Create(SThisDoesnTMatchThePasswordAlread);
+    raise Exception.Create(SThisDoesnTMatchThePasswordAlread);
 
   if Count = 0 then
   begin
@@ -392,23 +464,24 @@ begin
     Exit(True);
   end;
 
-  //does it work?
-  result := FKeyTools.DecryptPascalCoinPrivateKey(FKeys[0].CryptedKey.ToHexaString,
-         Value, lPlainKey);
+  // does it work?
+  result := FKeyTools.DecryptPascalCoinPrivateKey
+    (FKeys[0].CryptedKey.ToHexaString, Value, lPlainKey);
 
-  if Result then
-     FPassword := Value;
+  if result then
+    FPassword := Value;
 
 end;
 
-function TWallet.ChangePassword(const Value: string): boolean;
-var lOldPassword, lHexKey: string;
-    lPlainKey, lPassword: TRawBytes;
-    lWalletKey: IWalletKey;
+function TWallet.ChangePassword(const Value: string): Boolean;
+var
+  lOldPassword, lHexKey: string;
+  lPlainKey, lPassword: TRawBytes;
+  lWalletKey: IWalletKey;
 begin
   if FPassword = Value then
   begin
-     Exit(Unlock(Value));
+    Exit(Unlock(Value));
   end;
 
   lOldPassword := FPassword;
@@ -417,55 +490,45 @@ begin
   for lWalletKey in FKeys do
   begin
 
-//     //Already Password protected, Need to Decrypt
-//     if (FState in [esEncrypted, esDecrypted]) then
-//     begin
+    if not FKeyTools.DecryptPascalCoinPrivateKey
+      (lWalletKey.CryptedKey.ToHexaString, lOldPassword, lPlainKey) then
+    begin
+      raise Exception.Create('Unable to decrypt key!');
+    end;
 
-       if not FKeyTools.DoPascalCoinAESDecrypt(lWalletKey.CryptedKey,
-         lPassword, lPlainKey) then
-//       FKeyTools.DecryptPascalCoinPrivateKey(lWalletKey.CryptedKey.ToHexaString,
-//         lOldPassword, lPlainKey) then
-       begin
-         raise exception.Create('Unable to decrypt key!');
-       end;
-//     end
-//     else
-//       lPlainKey := lWalletKey.CryptedKey;
-
-     lHexKey := lPlainKey.ToHexaString;
-     lWalletKey.CryptedKey := FKeyTools.EncryptPascalCoinPrivateKey(lHexKey, Value);
+    lHexKey := lPlainKey.ToHexaString;
+    lWalletKey.CryptedKey := FKeyTools.EncryptPascalCoinPrivateKey
+      (lHexKey, Value);
 
   end;
 
   FPassword := Value;
   SaveToStream;
-  Result := Unlock(Value);
+  result := Unlock(Value);
 
 end;
 
-function TWallet.Unlock(const APassword: string): boolean;
+function TWallet.Unlock(const APassword: string): Boolean;
 begin
-  //Check for already Unlocked
+  // Check for already Unlocked
   if not GetLocked then
-     Exit(True);
+    Exit(True);
 
   if (FState = esEncrypted) then
   begin
-    if (APassword = '')  then
-       Exit(False);
+    if (APassword = '') then
+      Exit(False);
 
-    Result := SetPassword(APassword);
+    result := SetPassword(APassword);
 
   end
   else
-    Result := True;
+    result := True;
 
-  if Result then
+  if result then
   begin
     FLocked := False;
-
-    if Assigned(FOnLockChange) then
-       FOnLockChange(False);
+    FOnLockChange.Invoke(False);
   end;
 
 end;
@@ -474,24 +537,24 @@ end;
 
 procedure TWalletKey.Clear;
 begin
-  FAccountKey := nil;
-  FPrivateKey := nil;
+  FPublicKey := nil;
   FEncryptionState := esPlainText;
   SetLength(FCryptedKey, 0);
 end;
 
-constructor TWalletKey.Create(AKeyTools: IKeyTools);
+constructor TWalletKey.Create(AKeyTools: IKeyTools; AWallet: TWallet);
 begin
   inherited Create;
   FKeyTools := AKeyTools;
+  FWallet := AWallet;
   Clear;
 end;
 
 function TWalletKey.GetPublicKey: IPublicKey;
 begin
-  if FAccountKey = nil then
-     FAccountKey := TPublicKey.Create(FKeyTools);
-  Result := FAccountKey;
+  if FPublicKey = nil then
+    FPublicKey := TPublicKey.Create(FKeyTools);
+  result := FPublicKey;
 end;
 
 function TWalletKey.GetState: TEncryptionState;
@@ -501,34 +564,56 @@ end;
 
 function TWalletKey.GetCryptedKey: TBytes;
 begin
-  Result := FCryptedKey;
+  result := FCryptedKey;
+end;
+
+function TWalletKey.GetKeyType: TKeyType;
+begin
+  result := FPublicKey.KeyType;
 end;
 
 function TWalletKey.GetName: String;
 begin
-  Result := FName;
+  result := FName;
 end;
 
 function TWalletKey.GetPrivateKey: IPrivateKey;
+var
+  lKey: TRawBytes;
 begin
-  Result := FPrivateKey;
+  result := TPrivateKey.Create;
+  result.KeyType := FPublicKey.KeyType;
+
+  if FKeyTools.DecryptPascalCoinPrivateKey(FCryptedKey.ToHexaString,
+    FWallet.Password, lKey) then
+    result.Key := lKey;
 end;
 
-function TWalletKey.HasPrivateKey: boolean;
+function TWalletKey.HasPrivateKey: Boolean;
 begin
-  Result := Length(FCryptedKey) > 0;
+  result := Length(FCryptedKey) > 0;
 end;
 
 procedure TWalletKey.SetCryptedKey(const Value: TBytes);
-var lVal: TRawBytes;
-    lRetval: boolean;
+var
+  lVal: TRawBytes;
+  lRetval: Boolean;
+  lTestVal: string;
 begin
   FCryptedKey := Value;
-  lRetval := FKeyTools.DecryptPascalCoinPrivateKey(FCryptedKey.ToHexaString, '', lVal);
+  try
+    lRetval := FKeyTools.DecryptPascalCoinPrivateKey(FCryptedKey.ToHexaString,
+      '', lVal);
+  except
+    on e: Exception do
+    begin
+      lTestVal := Self.FName;
+    end;
+  end;
   if lRetval then
-     FEncryptionState := esPlainText
+    FEncryptionState := esPlainText
   else
-     FEncryptionState := esEncrypted;
+    FEncryptionState := esEncrypted;
 end;
 
 procedure TWalletKey.SetName(const Value: String);
@@ -536,16 +621,13 @@ begin
   FName := Value;
 end;
 
-
 { TPublicKey }
-
 
 constructor TPublicKey.Create(AKeyTools: IKeyTools);
 begin
   inherited Create;
   FKeyTools := AKeyTools;
 end;
-
 
 function TPublicKey.GetNID: Word;
 begin
@@ -574,7 +656,7 @@ end;
 
 function TPublicKey.GetKeyType: TKeyType;
 begin
-  Result := FKeyTools.RetrieveKeyType(FNID);
+  result := FKeyTools.RetrieveKeyType(FNID);
 end;
 
 function TPublicKey.GetKeyTypeAsStr: string;
@@ -592,7 +674,7 @@ begin
   SetKeyType(TRttiEnumerationType.GetValue<TKeyType>(Value));
 end;
 
-procedure TPublicKey.SetNID(const Value: word);
+procedure TPublicKey.SetNID(const Value: Word);
 begin
   FNID := Value;
 end;
@@ -605,6 +687,47 @@ end;
 procedure TPublicKey.SetY(const Value: TBytes);
 begin
   FY := Value;
+end;
+
+{ TPrivateKey }
+
+ {$IFDEF UNITTEST}
+constructor TPrivateKey.Create(AHexKey: string; const AKeyType: TKeyType);
+begin
+  Create;
+  FKey := THex.Decode(AHexKey);
+  FKeyType := AKeyType;
+end;
+{$ENDIF}
+
+constructor TPrivateKey.Create;
+begin
+  inherited Create;
+end;
+
+function TPrivateKey.GetAsHexStr: String;
+begin
+  result := FKey.ToHexaString;
+end;
+
+function TPrivateKey.GetKey: TRawBytes;
+begin
+  result := FKey;
+end;
+
+function TPrivateKey.GetKeyType: TKeyType;
+begin
+  result := FKeyType;
+end;
+
+procedure TPrivateKey.SetKey(Value: TRawBytes);
+begin
+  FKey := Value;
+end;
+
+procedure TPrivateKey.SetKeyType(const Value: TKeyType);
+begin
+  FKeyType := Value;
 end;
 
 end.

@@ -2,28 +2,29 @@ unit PascalCoin.HTTPClient.Delphi;
 
 interface
 
-uses System.Classes, System.Net.HttpClient, PascalCoin.RPC.Interfaces;
+uses System.Classes, System.Net.HTTPClient, PascalCoin.RPC.Interfaces;
 
 type
 
-TDelphiHTTP = class(TInterfacedObject, IRPCHTTPRequest)
-private
-  FHTTP: THTTPClient;
-  FResponse: IHTTPResponse;
-  FStatusCode: Integer;
-  FStatusText: string;
-protected
-  function GetResponseStr: string;
-  function GetStatusCode: integer;
-  function GetStatusText: string;
+  TDelphiHTTP = class(TInterfacedObject, IRPCHTTPRequest)
+  private
+    FHTTP: THTTPClient;
+    FResponse: IHTTPResponse;
+    FStatusCode: Integer;
+    FStatusText: string;
+    FStatusType: THTTPStatusType;
+  protected
+    function GetResponseStr: string;
+    function GetStatusCode: Integer;
+    function GetStatusText: string;
+    function GetStatusType: THTTPStatusType;
 
-  procedure Clear;
-  function Post(AURL: string; AData: string): boolean;
-public
-  constructor Create;
-  destructor Destroy; override;
-end;
-
+    procedure Clear;
+    function Post(AURL: string; AData: string): boolean;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
 implementation
 
@@ -33,9 +34,9 @@ uses System.SysUtils;
 
 procedure TDelphiHTTP.Clear;
 begin
- FResponse := nil;
- FStatusCode := -1;
- FStatusText := '';
+  FResponse := nil;
+  FStatusCode := -1;
+  FStatusText := '';
 end;
 
 constructor TDelphiHTTP.Create;
@@ -55,7 +56,7 @@ begin
   result := FResponse.ContentAsString;
 end;
 
-function TDelphiHTTP.GetStatusCode: integer;
+function TDelphiHTTP.GetStatusCode: Integer;
 begin
   result := FStatusCode;
 end;
@@ -65,21 +66,40 @@ begin
   result := FStatusText;
 end;
 
-function TDelphiHTTP.Post(AURL, AData: string): boolean;
-var lStream: TStringStream;
+function TDelphiHTTP.GetStatusType: THTTPStatusType;
 begin
+  result := FStatusType;
+end;
+
+function TDelphiHTTP.Post(AURL, AData: string): boolean;
+var
+  lStream: TStringStream;
+begin
+  FStatusText := '';
   lStream := TStringStream.Create(AData);
   try
     lStream.Position := 0;
     try
       FResponse := FHTTP.Post(AURL, lStream);
       FStatusCode := FResponse.StatusCode;
-     // FStatusText := FResponse.StatusText;
-      Result := (FResponse.StatusCode >= 200) AND (FResponse.StatusCode <= 299);
+
+      result := (FResponse.StatusCode >= 200) AND (FResponse.StatusCode <= 299);
+      if result then
+        FStatusType := THTTPStatusType.OK
+      else
+      begin
+        FStatusType := THTTPStatusType.Fail;
+        try
+          FStatusText := FResponse.StatusText;
+        except
+        end;
+      end;
     except
       on E: Exception do
       begin
-        Result := False;
+        FStatusType := THTTPStatusType.Exception;
+        FStatusText := E.ClassName + ':' + E.Message;
+        result := False;
       end;
     end;
   finally

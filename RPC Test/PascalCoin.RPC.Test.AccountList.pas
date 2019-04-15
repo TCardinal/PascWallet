@@ -28,8 +28,8 @@ implementation
 
 {$R *.fmx}
 
-uses PascalCoin.RPC.Interfaces, PascalCoin.RPC.Shared,
-FMX.Platform, FMX.Surfaces, System.Rtti;
+uses PascalCoin.RPC.Interfaces, Spring.Container,
+FMX.Platform, FMX.Surfaces, System.Rtti, PascalCoin.RPC.Test.DM;
 
 procedure TAccountsList.Button1Click(Sender: TObject);
 var lAPI: IPascalCoinAPI;
@@ -39,7 +39,7 @@ begin
   ListBox1.BeginUpdate;
   try
     ListBox1.Clear;
-    lAPI := RPCConfig.Container.Resolve<IPascalCoinAPI>;
+    lAPI := GlobalContainer.Resolve<IPascalCoinAPI>.URI(DM.URI);
 
     Label2.Text := 'Number of Accounts: ' + lAPI.getwalletaccountscount(PubKey.Text, TKeyStyle.ksB58Key).ToString;
     lAccounts := lAPI.getwalletaccounts(Pubkey.Text, TKeyStyle.ksB58Key);
@@ -70,5 +70,6 @@ begin
     end;
   end;
 end;
+
 
 end.

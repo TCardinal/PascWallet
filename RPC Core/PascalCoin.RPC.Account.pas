@@ -6,68 +6,94 @@ uses System.Generics.Collections, PascalCoin.RPC.Interfaces;
 
 type
 
-TPascalCoinAccount = Class(TInterfacedObject, IPascalCoinAccount)
-private
-  FAccount: Integer;
-  Fenc_pubkey: String;
-  FBalance: Currency;
-  FN_Operation: Integer;
-  FUpdated_b: Integer;
-  FState: string;
-  FLocked_Until_Block: Integer;
-  FPrice: Currency;
-  FSeller_Account: Integer;
-  FPrivate_Sale: Boolean;
-  FNew_Enc_PubKey: String;
-  FName: String;
-  FAccountType: Integer;
-protected
-  function GetAccount: Integer;
-  procedure SetAccount(const Value: Integer);
-  function GetPubKey: String;
-  procedure SetPubKey(const Value: String);
-  function GetBalance: Currency;
-  procedure SetBalance(const Value: Currency);
-  function GetN_Operation: Integer;
-  procedure SetN_Operation(const Value: Integer);
-  function GetUpdated_b: Integer;
-  procedure SetUpdated_b(const Value: Integer);
-  function GetState: String;
-  procedure SetState(const Value: String);
-  function GetLocked_Until_Block: Integer;
-  procedure SetLocked_Until_Block(const Value: Integer);
-  function GetPrice: Currency;
-  procedure SetPrice(const Value: Currency);
-  function GetSeller_Account: Integer;
-  procedure SetSeller_Account(const Value: Integer);
-  function GetPrivate_Sale: Boolean;
-  procedure SetPrivate_Sale(const Value: Boolean);
-  function GetNew_Enc_PubKey: String;
-  procedure SetNew_Enc_PubKey(const Value: String);
-  function GetName: String;
-  procedure SetName(const Value: String);
-  function GetAccount_Type: Integer;
-  procedure SetAccount_Type(const Value: Integer);
-public
-End;
+  TPascalCoinAccount = Class(TInterfacedObject, IPascalCoinAccount)
+  private
+    FAccount: Int64;
+    Fenc_pubkey: String;
+    FBalance: Currency;
+    FN_Operation: Integer;
+    FUpdated_b: Integer;
+    FState: string;
+    FLocked_Until_Block: Integer;
+    FPrice: Currency;
+    FSeller_Account: Integer;
+    FPrivate_Sale: Boolean;
+    FNew_Enc_PubKey: String;
+    FName: String;
+    FAccountType: Integer;
+  protected
+    function GetAccount: Int64;
+    procedure SetAccount(const Value: Int64);
+    function GetPubKey: String;
+    procedure SetPubKey(const Value: String);
+    function GetBalance: Currency;
+    procedure SetBalance(const Value: Currency);
+    function GetN_Operation: Integer;
+    procedure SetN_Operation(const Value: Integer);
+    function GetUpdated_b: Integer;
+    procedure SetUpdated_b(const Value: Integer);
+    function GetState: String;
+    procedure SetState(const Value: String);
+    function GetLocked_Until_Block: Integer;
+    procedure SetLocked_Until_Block(const Value: Integer);
+    function GetPrice: Currency;
+    procedure SetPrice(const Value: Currency);
+    function GetSeller_Account: Integer;
+    procedure SetSeller_Account(const Value: Integer);
+    function GetPrivate_Sale: Boolean;
+    procedure SetPrivate_Sale(const Value: Boolean);
+    function GetNew_Enc_PubKey: String;
+    procedure SetNew_Enc_PubKey(const Value: String);
+    function GetName: String;
+    procedure SetName(const Value: String);
+    function GetAccount_Type: Integer;
+    procedure SetAccount_Type(const Value: Integer);
 
-TPascalCoinAccounts = class(TInterfacedObject, IPascalCoinAccounts)
-private
-  FAccounts: TList<IPascalCoinAccount>;
-protected
-  function GetAccount(const Index: Integer): IPascalCoinAccount;
-  function Count: Integer;
-  function AddAccount(Value: IPascalCoinAccount): Integer;
-public
-  constructor Create;
-  destructor Destroy; override;
-end;
+    function SameAs(AAccount: IPascalCoinAccount): Boolean;
+    procedure Assign(AAccount: IPascalCoinAccount);
+  public
+  End;
+
+  TPascalCoinAccounts = class(TInterfacedObject, IPascalCoinAccounts)
+  private
+    { TODO : Maybe switch to TDictionary }
+    FAccounts: TList<IPascalCoinAccount>;
+  protected
+    function GetAccount(const Index: Integer): IPascalCoinAccount;
+    function FindAccount(const Value: Integer): IPascalCoinAccount; overload;
+    function FindAccount(const Value: String): IPascalCoinAccount; overload;
+    function Count: Integer;
+    procedure Clear;
+    function AddAccount(Value: IPascalCoinAccount): Integer;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
 implementation
 
+uses System.SysUtils;
+
 { TPascalCoinAccount }
 
-function TPascalCoinAccount.GetAccount: Integer;
+procedure TPascalCoinAccount.Assign(AAccount: IPascalCoinAccount);
+begin
+  FAccount := AAccount.account;
+  Fenc_pubkey := AAccount.enc_pubkey;
+  FBalance := AAccount.balance;
+  FN_Operation := AAccount.n_operation;
+  FUpdated_b := AAccount.updated_b;
+  FState := AAccount.state;
+  FLocked_Until_Block := AAccount.locked_until_block;
+  FPrice := AAccount.price;
+  FSeller_Account := AAccount.seller_account;
+  FPrivate_Sale := AAccount.private_sale;
+  FNew_Enc_PubKey := AAccount.new_enc_pubkey;
+  FName := AAccount.name;
+  FAccountType := AAccount.account_type;
+end;
+
+function TPascalCoinAccount.GetAccount: Int64;
 begin
   result := FAccount;
 end;
@@ -132,7 +158,24 @@ begin
   result := FUpdated_b;
 end;
 
-procedure TPascalCoinAccount.SetAccount(const Value: Integer);
+function TPascalCoinAccount.SameAs(AAccount: IPascalCoinAccount): Boolean;
+begin
+   result := (FAccount = AAccount.account)
+    and (Fenc_pubkey = AAccount.enc_pubkey)
+    and (FBalance = AAccount.balance)
+    and (FN_Operation = AAccount.n_operation)
+    and (FUpdated_b = AAccount.updated_b)
+    and (FState = AAccount.state)
+    and (FLocked_Until_Block = AAccount.locked_until_block)
+    and (FPrice = AAccount.price)
+    and (FSeller_Account = AAccount.seller_account)
+    and (FPrivate_Sale = AAccount.private_sale)
+    and (FNew_Enc_PubKey = AAccount.new_enc_pubkey)
+    and (FName = AAccount.name)
+    and (FAccountType = AAccount.account_type);
+end;
+
+procedure TPascalCoinAccount.SetAccount(const Value: Int64);
 begin
   FAccount := Value;
 end;
@@ -204,6 +247,11 @@ begin
   result := FAccounts.Add(Value);
 end;
 
+procedure TPascalCoinAccounts.Clear;
+begin
+  FAccounts.Clear;
+end;
+
 function TPascalCoinAccounts.Count: Integer;
 begin
   result := FAccounts.Count;
@@ -221,8 +269,34 @@ begin
   inherited;
 end;
 
-function TPascalCoinAccounts.GetAccount(
-  const Index: Integer): IPascalCoinAccount;
+function TPascalCoinAccounts.FindAccount(const Value: String)
+  : IPascalCoinAccount;
+var
+  lPos, lValue: Integer;
+begin
+  lPos := Value.IndexOf('-');
+  if lPos > -1 then
+    lValue := Value.Substring(0, lPos).ToInteger
+  else
+    lValue := Value.ToInteger;
+
+  result := FindAccount(lValue);
+
+end;
+
+function TPascalCoinAccounts.FindAccount(const Value: Integer)
+  : IPascalCoinAccount;
+var
+  lAccount: IPascalCoinAccount;
+begin
+  result := nil;
+  for lAccount in FAccounts do
+    if lAccount.Account = Value then
+      Exit(lAccount);
+end;
+
+function TPascalCoinAccounts.GetAccount(const Index: Integer)
+  : IPascalCoinAccount;
 begin
   result := FAccounts[Index];
 end;

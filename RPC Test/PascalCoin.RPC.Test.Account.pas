@@ -29,7 +29,7 @@ implementation
 
 {$R *.fmx}
 
-uses PascalCoin.RPC.Shared, FMX.Platform, FMX.Surfaces;
+uses FMX.Platform, FMX.Surfaces, Spring.Container, PascalCoin.RPC.Test.DM;
 
 function TAccountFrame.AccountNumber: Integer;
 var lPos: Integer;
@@ -48,7 +48,7 @@ begin
   ListBox1.BeginUpdate;
   try
     ListBox1.Clear;
-    lAPI := RPCConfig.Container.Resolve<IPascalCoinAPI>;
+    lAPI := GlobalContainer.Resolve<IPascalCoinAPI>.URI(DM.URI);
     FAccount := lAPI.getaccount(AccountNumber);
     ListBox1.Items.Add('account : ' + FAccount.account.ToString);
     ListBox1.Items.Add('enc_pubkey : ' + FAccount.enc_pubkey);

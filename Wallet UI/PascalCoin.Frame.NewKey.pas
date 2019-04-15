@@ -3,7 +3,8 @@ unit PascalCoin.Frame.NewKey;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
   FMX.ListBox, FMX.Edit, FMX.Controls.Presentation, FMX.Layouts,
   PascalCoin.Wallet.Interfaces;
@@ -39,7 +40,7 @@ implementation
 
 {$R *.fmx}
 
-uses PascalCoin.FMX.DataModule, System.Rtti;
+uses PascalCoin.FMX.DataModule, System.Rtti, PascalCoin.Utils.Interfaces;
 
 { TNewKeyFrame }
 
@@ -59,8 +60,7 @@ begin
 
   KeyTypeLayout.Visible := MainDataModule.Settings.AdvancedOptions;
   if not KeyTypeLayout.Visible then
-     Height := Height - KeyTypeLayout.Height;
-
+    Height := Height - KeyTypeLayout.Height;
 
 end;
 
@@ -72,12 +72,13 @@ end;
 procedure TNewKeyFrame.CreateButtonClick(Sender: TObject);
 begin
   if CreateNewKey then
-     OnCreateKey(FKeyIndex);
+    OnCreateKey(FKeyIndex);
 end;
 
 function TNewKeyFrame.CreateNewKey: boolean;
-var lName: string;
-    lKeyType: TKeyType;
+var
+  lName: string;
+  lKeyType: TKeyType;
 begin
   result := False;
   lName := NameEdit.Text.Trim;
@@ -86,9 +87,10 @@ begin
     ShowMessage('Please enter a name for this key');
     Exit;
   end;
-  lKeyType := TRttiEnumerationType.GetValue<TKeyType>(KeyTypeCombo.Selected.Text);
+  lKeyType := TRttiEnumerationType.GetValue<TKeyType>
+    (KeyTypeCombo.Selected.Text);
   FKeyIndex := MainDataModule.Wallet.CreateNewKey(lKeyType, lName);
-  Result := KeyIndex > -1;
+  result := KeyIndex > -1;
 end;
 
 end.

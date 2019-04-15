@@ -1,0 +1,161 @@
+object EditNodeFrame: TEditNodeFrame
+  Size.Width = 418.000000000000000000
+  Size.Height = 240.000000000000000000
+  Size.PlatformDefault = False
+  object Panel1: TPanel
+    Align = Client
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 3.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Size.Width = 418.000000000000000000
+    Size.Height = 240.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object TitleLayout: TLayout
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 412.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object Label1: TLabel
+        Align = Center
+        Size.Width = 168.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'listboxheaderlabel'
+        TextSettings.HorzAlign = Center
+        Text = 'Node'
+        TabOrder = 0
+      end
+    end
+    object ButtonLayout: TLayout
+      Align = Bottom
+      Position.X = 3.000000000000000000
+      Position.Y = 200.000000000000000000
+      Size.Width = 412.000000000000000000
+      Size.Height = 37.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object OKButton: TButton
+        Action = OKAction
+        Align = Right
+        Enabled = True
+        ImageIndex = -1
+        Margins.Left = 5.000000000000000000
+        Position.X = 332.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 37.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+      end
+      object CancelButton: TButton
+        Action = CancelAction
+        Align = Right
+        Enabled = True
+        ImageIndex = -1
+        Position.X = 247.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 37.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+      end
+    end
+    object NameLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 53.000000000000000000
+      Size.Width = 412.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object NameLabel: TLabel
+        Align = Left
+        Size.Width = 73.000000000000000000
+        Size.Height = 36.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Name'
+        TabOrder = 0
+      end
+      object NameEdit: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Client
+        TabOrder = 1
+        Size.Width = 339.000000000000000000
+        Size.Height = 36.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object URILayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 94.000000000000000000
+      Size.Width = 412.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object URILabel: TLabel
+        Align = Left
+        Size.Width = 73.000000000000000000
+        Size.Height = 36.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'URI'
+        TabOrder = 0
+      end
+      object URIEdit: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Client
+        TabOrder = 1
+        Size.Width = 303.000000000000000000
+        Size.Height = 36.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'http://myrpc.com:4103'
+      end
+      object TestButton: TSpeedButton
+        Action = CheckURIAction
+        Align = Right
+        Enabled = True
+        ImageIndex = -1
+        Position.X = 376.000000000000000000
+        Size.Width = 36.000000000000000000
+        Size.Height = 36.000000000000000000
+        Size.PlatformDefault = False
+        ParentShowHint = False
+        ShowHint = True
+        StyleLookup = 'playtoolbutton'
+      end
+    end
+    object StatusLabel: TLabel
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 135.000000000000000000
+      Size.Width = 412.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'listboxitemlabel'
+      TextSettings.HorzAlign = Center
+      Text = 'not checked yet'
+      TabOrder = 4
+    end
+  end
+  object ActionList1: TActionList
+    Left = 232
+    Top = 48
+    object OKAction: TAction
+      Text = 'OK'
+      OnExecute = OKActionExecute
+    end
+    object CancelAction: TAction
+      Text = 'Cancel'
+      OnExecute = CancelActionExecute
+    end
+    object CheckURIAction: TAction
+      Text = 'CheckURIAction'
+      Hint = 'check this URI'
+    end
+  end
+end

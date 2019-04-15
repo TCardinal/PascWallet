@@ -1,112 +1,299 @@
-object SendFrame: TSendFrame
-  Size.Width = 320.000000000000000000
-  Size.Height = 240.000000000000000000
-  Size.PlatformDefault = False
-  object ButtonLayout: TLayout
-    Align = Bottom
-    Padding.Left = 2.000000000000000000
-    Padding.Top = 2.000000000000000000
-    Padding.Right = 2.000000000000000000
-    Padding.Bottom = 2.000000000000000000
-    Margins.Left = 2.000000000000000000
-    Margins.Top = 2.000000000000000000
-    Margins.Right = 2.000000000000000000
-    Margins.Bottom = 2.000000000000000000
-    Position.X = 2.000000000000000000
-    Position.Y = 201.000000000000000000
-    Size.Width = 316.000000000000000000
-    Size.Height = 37.000000000000000000
+inherited SendFrame: TSendFrame
+  Align = Client
+  Size.Width = 426.000000000000000000
+  Size.Height = 592.000000000000000000
+  object MainLayout: TLayout
+    Align = Client
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 3.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Size.Width = 426.000000000000000000
+    Size.Height = 592.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    object SaveButton: TButton
-      Action = SendAction
-      Align = Right
-      Enabled = True
-      Images = DataModule1.StandardImages
-      ImageIndex = 8
-      Margins.Left = 2.000000000000000000
-      Margins.Top = 2.000000000000000000
-      Margins.Right = 2.000000000000000000
-      Margins.Bottom = 2.000000000000000000
-      Position.X = 244.945953369140600000
-      Position.Y = 4.000000000000000000
-      Size.Width = 67.054046630859380000
+    object AccountLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 420.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 5
+      object AccountLabel: TLabel
+        Align = Left
+        Size.Width = 120.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Send from'
+        TabOrder = 0
+      end
+      object AccountNumber: TComboBox
+        Align = Right
+        Position.X = 176.000000000000000000
+        Size.Width = 244.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        OnChange = AccountNumberChange
+      end
+    end
+    object PayloadLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 140.000000000000000000
+      Size.Width = 420.000000000000000000
+      Size.Height = 29.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      object PayloadLabel: TLabel
+        Align = Left
+        Size.Width = 120.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Payload'
+        TabOrder = 0
+      end
+      object Payload: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Right
+        TabOrder = 1
+        Position.X = 208.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object AmountLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 38.000000000000000000
+      Size.Width = 420.000000000000000000
+      Size.Height = 29.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object AmountLabel: TLabel
+        Align = Left
+        Size.Width = 120.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Amount'
+        TabOrder = 0
+      end
+      object Amount: TNumberBox
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Right
+        TabOrder = 1
+        Cursor = crIBeam
+        DecimalDigits = 4
+        Max = 1000000.000000000000000000
+        ValueType = Float
+        TextSettings.HorzAlign = Trailing
+        Position.X = 208.000000000000000000
+        HorzIncrement = 0.000000000000000000
+        VertIncrement = 0.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        OnChange = AmountChange
+      end
+      object PascLabel: TLabel
+        Align = Right
+        StyledSettings = [Family, Size, FontColor]
+        Margins.Left = 3.000000000000000000
+        Margins.Right = 3.000000000000000000
+        Position.X = 168.000000000000000000
+        Size.Width = 37.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.HorzAlign = Trailing
+        Text = 'PASC'
+        TabOrder = 2
+      end
+    end
+    object PayloadAdvanced: TLayout
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 174.000000000000000000
+      Size.Width = 420.000000000000000000
+      Size.Height = 103.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 6
+      object PayloadEncodeLayout: TLayout
+        Align = Top
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 420.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object PayloadEncodeLabel: TLabel
+          Align = Left
+          Size.Width = 120.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Encode Payload as'
+          TabOrder = 0
+        end
+        object PayloadEncode: TComboBox
+          Align = Right
+          Position.X = 208.000000000000000000
+          Size.Width = 212.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+        end
+      end
+      object PayloadEncryptLayout: TLayout
+        Align = Top
+        Margins.Bottom = 5.000000000000000000
+        Position.Y = 34.000000000000000000
+        Size.Width = 420.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        object PayloadEncryptLabel: TLabel
+          Align = Left
+          Size.Width = 120.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Encrypt Payload with'
+          TabOrder = 0
+        end
+        object PayloadEncrypt: TComboBox
+          Align = Right
+          Position.X = 208.000000000000000000
+          Size.Width = 212.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+        end
+      end
+      object PayloadPasswordLayout: TLayout
+        Align = Top
+        Margins.Bottom = 5.000000000000000000
+        Position.Y = 68.000000000000000000
+        Size.Width = 420.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object PasswordLabel: TLabel
+          Align = Left
+          Size.Width = 120.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Payload Password'
+          TabOrder = 0
+        end
+        object PayloadPassword: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Right
+          TabOrder = 1
+          Position.X = 208.000000000000000000
+          Size.Width = 212.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+        end
+      end
+    end
+    object SendTolayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 106.000000000000000000
+      Size.Width = 420.000000000000000000
+      Size.Height = 29.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object SendToLabel: TLabel
+        Align = Left
+        Size.Width = 120.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Send To'
+        TabOrder = 0
+      end
+      object SendTo: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Right
+        TabOrder = 1
+        Position.X = 208.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        OnChange = SendToChange
+      end
+    end
+    object FooterLayout: TLayout
+      Align = Bottom
+      Position.X = 3.000000000000000000
+      Position.Y = 539.000000000000000000
+      Size.Width = 420.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object SendButton: TButton
+        Align = Center
+        Enabled = False
+        Size.Width = 103.000000000000000000
+        Size.Height = 37.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Send Now'
+        OnClick = SendButtonClick
+      end
+    end
+    object FeeLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 72.000000000000000000
+      Size.Width = 420.000000000000000000
       Size.Height = 29.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      Text = 'Send'
-    end
-    object CancelButton: TButton
-      Action = CancelAction
-      Align = Right
-      Enabled = True
-      Images = DataModule1.StandardImages
-      ImageIndex = 5
-      Margins.Left = 2.000000000000000000
-      Margins.Top = 2.000000000000000000
-      Margins.Right = 2.000000000000000000
-      Margins.Bottom = 2.000000000000000000
-      Position.X = 173.945953369140600000
-      Position.Y = 4.000000000000000000
-      Size.Width = 67.000000000000000000
-      Size.Height = 29.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 0
-    end
-  end
-  object MainLayout: TLayout
-    Align = Client
-    Size.Width = 320.000000000000000000
-    Size.Height = 159.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 2
-  end
-  object ToolBar1: TToolBar
-    Size.Width = 320.000000000000000000
-    Size.Height = 40.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 0
-    object TitleLabel: TLabel
-      Align = Client
-      AutoSize = True
-      Padding.Left = 2.000000000000000000
-      Padding.Top = 2.000000000000000000
-      Padding.Right = 2.000000000000000000
-      Padding.Bottom = 2.000000000000000000
-      Margins.Left = 2.000000000000000000
-      Margins.Top = 2.000000000000000000
-      Margins.Right = 2.000000000000000000
-      Margins.Bottom = 2.000000000000000000
-      Size.Width = 273.000000000000000000
-      Size.Height = 36.000000000000000000
-      Size.PlatformDefault = False
-      Text = 'Send PascalCoin'
-      TabOrder = 0
-    end
-    object SpeedButton1: TSpeedButton
-      Align = FitRight
-      Images = DataModule1.StandardImages
-      ImageIndex = 6
-      Position.X = 277.000000000000000000
-      Size.Width = 43.000000000000000000
-      Size.Height = 40.000000000000000000
-      Size.PlatformDefault = False
-      StyleLookup = 'additembutton'
-    end
-  end
-  object ActionList1: TActionList
-    Images = DataModule1.StandardImages
-    Left = 144
-    Top = 104
-    object SendAction: TAction
-      Text = 'SendAction'
-      ImageIndex = 8
-      ImageIndex = 8
-    end
-    object CancelAction: TAction
-      Text = 'Cancel'
-      ImageIndex = 5
-      ImageIndex = 5
+      object FeeLabel: TLabel
+        Align = Left
+        Size.Width = 120.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Fee'
+        TabOrder = 0
+      end
+      object Fee: TNumberBox
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Right
+        TabOrder = 1
+        Cursor = crIBeam
+        DecimalDigits = 4
+        Max = 1000000.000000000000000000
+        ValueType = Float
+        TextSettings.HorzAlign = Trailing
+        Position.X = 208.000000000000000000
+        HorzIncrement = 0.000000000000000000
+        VertIncrement = 0.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        OnChange = AmountChange
+      end
+      object Label2: TLabel
+        Align = Right
+        StyledSettings = [Family, Size, FontColor]
+        Margins.Left = 3.000000000000000000
+        Margins.Right = 3.000000000000000000
+        Position.X = 168.000000000000000000
+        Size.Width = 37.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.HorzAlign = Trailing
+        Text = 'PASC'
+        TabOrder = 2
+      end
     end
   end
 end

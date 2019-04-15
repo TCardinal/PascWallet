@@ -1,39 +1,40 @@
 inherited WalletFrame: TWalletFrame
   Align = Client
-  Size.Width = 344.000000000000000000
-  Size.Height = 486.000000000000000000
+  Size.Width = 604.000000000000000000
+  Size.Height = 555.000000000000000000
   object MainLayout: TLayout
     Align = Client
-    Size.Width = 344.000000000000000000
-    Size.Height = 486.000000000000000000
+    Size.Width = 604.000000000000000000
+    Size.Height = 555.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     object WalletPanel: TPanel
       Align = Top
       Margins.Bottom = 3.000000000000000000
-      Size.Width = 344.000000000000000000
+      Size.Width = 604.000000000000000000
       Size.Height = 65.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
-      object Label1: TLabel
+      object BalanceLabel: TLabel
         Align = Top
         StyledSettings = [Family, Size, FontColor]
         Margins.Top = 3.000000000000000000
         Margins.Bottom = 3.000000000000000000
         Position.Y = 31.000000000000000000
-        Size.Width = 344.000000000000000000
-        Size.Height = 17.000000000000000000
+        Size.Width = 604.000000000000000000
+        Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'listboxheaderlabel'
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.HorzAlign = Center
+        TextSettings.VertAlign = Leading
         Text = '5,400.32 PASC'
         TabOrder = 1
       end
       object MyBalanceLabel: TLabel
         Align = Top
         Margins.Bottom = 3.000000000000000000
-        Size.Width = 344.000000000000000000
+        Size.Width = 604.000000000000000000
         Size.Height = 25.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'listboxheaderlabel'
@@ -46,47 +47,103 @@ inherited WalletFrame: TWalletFrame
       Padding.Left = 3.000000000000000000
       Padding.Right = 3.000000000000000000
       Position.Y = 68.000000000000000000
-      Size.Width = 344.000000000000000000
+      Size.Width = 604.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      object Label2: TLabel
-        Align = Left
-        Position.X = 3.000000000000000000
-        Size.Width = 120.000000000000000000
-        Size.Height = 40.000000000000000000
-        Size.PlatformDefault = False
-        TextSettings.HorzAlign = Center
-        Text = 'My Accounts'
-        TabOrder = 1
-      end
       object AccountShow: TCheckBox
         Align = Left
-        Position.X = 123.000000000000000000
-        Size.Width = 120.000000000000000000
+        Position.X = 3.000000000000000000
+        Size.Width = 158.000000000000000000
         Size.Height = 40.000000000000000000
         Size.PlatformDefault = False
+        TabOrder = 1
+        Text = 'Hide zero balances'
+      end
+      object PasaCount: TLabel
+        Align = Left
+        Position.X = 161.000000000000000000
+        Size.Width = 328.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Number of PASAs listed'
         TabOrder = 2
-        Text = 'Show All Accounts'
       end
     end
-    object Grid1: TGrid
+    object Layout1: TLayout
       Align = Client
-      CanFocus = True
-      ClipChildren = True
-      Size.Width = 344.000000000000000000
-      Size.Height = 378.000000000000000000
+      Padding.Bottom = 3.000000000000000000
+      Size.Width = 604.000000000000000000
+      Size.Height = 447.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
-      Viewport.Width = 344.000000000000000000
-      Viewport.Height = 378.000000000000000000
-      object Column1: TColumn
-        Header = 'Account'
-        Size.Width = 161.000000000000000000
+      object AccountGrid: TGrid
+        Align = Left
+        CanFocus = True
+        ClipChildren = True
+        PopupMenu = PopupMenu1
+        Size.Width = 489.000000000000000000
+        Size.Height = 444.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Viewport.Width = 489.000000000000000000
+        Viewport.Height = 444.000000000000000000
       end
-      object Column2: TColumn
-        Header = 'Balance'
-      end
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 368
+    Top = 200
+    object AccountInfoItem: TMenuItem
+      Action = AccountInfoAction
+      Enabled = True
+      ImageIndex = -1
+    end
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = MainDataModule.AccountsData
+    ScopeMappings = <
+      item
+      end>
+    Left = 296
+    Top = 64
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 300
+    Top = 5
+    object LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      GridControl = AccountGrid
+      Columns = <
+        item
+          MemberName = 'AccountNumChkSum'
+          Width = 100
+        end
+        item
+          MemberName = 'AccountName'
+          Width = 125
+        end
+        item
+          MemberName = 'Balance'
+          Width = 100
+        end
+        item
+          MemberName = 'AccountState'
+        end
+        item
+          MemberName = 'NOps'
+        end>
+    end
+  end
+  object ActionList1: TActionList
+    Left = 296
+    Top = 200
+    object AccountInfoAction: TAction
+      Text = 'Account Info'
+      OnExecute = AccountInfoActionExecute
     end
   end
 end

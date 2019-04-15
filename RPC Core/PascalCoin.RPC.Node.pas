@@ -3,127 +3,125 @@ unit PascalCoin.RPC.Node;
 interface
 
 uses System.Generics.Collections,
-PascalCoin.Utils.Interfaces, PascalCoin.RPC.Interfaces, System.JSON;
+  PascalCoin.Utils.Interfaces, PascalCoin.RPC.Interfaces, System.JSON;
 
 type
 
-TPascalCoinNodeStatus = class(TInterfacedObject, IPascalCoinNodeStatus)
-private
-  FReady: Boolean;
-  FReady_S: String;
-  FStatus_S: String;
-  FPort: Integer;
-  FLocked: Boolean;
-  FTimeStamp: Integer;
-  FVersion: String;
-  FNetProtocol: IPascalCoinNetProtocol;
-  FBlocks: Integer;
-  FNetStats: IPascalNetStats;
-  FNdeServers: IPascalCoinList<IPascalCoinServer>;
-  FSBH: String;
-  FPOW: String;
-  FOpenSSL: String;
-  procedure LoadFromJSON(const Value: TJSONValue);
-protected
-  function GetReady: Boolean;
-  procedure SetReady(Const Value: Boolean);
-  function GetReady_S: String;
-  procedure SetReady_S(Const Value: String);
-  function GetStatus_S: String;
-  procedure SetStatus_S(Const Value: String);
-  function GetPort: Integer;
-  procedure SetPort(Const Value: Integer);
-  function GetLocked: Boolean;
-  procedure SetLocked(Const Value: Boolean);
-  function GetTimeStamp: Integer;
-  procedure SetTimeStamp(Const Value: Integer);
-  function GetVersion: String;
-  procedure SetVersion(Const Value: String);
-  function GetNetProtocol: IPascalCoinNetProtocol;
-  function GetBlocks: Integer;
-  procedure SetBlocks(Const Value: Integer);
-  function GetNetStats: IPascalNetStats;
-  function GetNodeServers: IPascalCoinList<IPascalCoinServer>;
-  function GetSBH: String;
-  procedure SetSBH(const Value: String);
-  function GetPOW: String;
-  procedure SetPOW(const Value: String);
-  function GetOpenSSL: String;
-  procedure SetOpenSSL(const Value: String);
+  TPascalCoinNodeStatus = class(TInterfacedObject, IPascalCoinNodeStatus)
+  private
+    FReady: Boolean;
+    FReady_S: String;
+    FStatus_S: String;
+    FPort: Integer;
+    FLocked: Boolean;
+    FTimeStamp: Integer;
+    FVersion: String;
+    FNetProtocol: IPascalCoinNetProtocol;
+    FBlocks: Integer;
+    FNetStats: IPascalNetStats;
+    FNdeServers: IPascalCoinList<IPascalCoinServer>;
+    FSBH: String;
+    FPOW: String;
+    FOpenSSL: String;
+    procedure LoadFromJSON(const Value: TJSONValue);
+  protected
+    function GetReady: Boolean;
+    procedure SetReady(Const Value: Boolean);
+    function GetReady_S: String;
+    procedure SetReady_S(Const Value: String);
+    function GetStatus_S: String;
+    procedure SetStatus_S(Const Value: String);
+    function GetPort: Integer;
+    procedure SetPort(Const Value: Integer);
+    function GetLocked: Boolean;
+    procedure SetLocked(Const Value: Boolean);
+    function GetTimeStamp: Integer;
+    procedure SetTimeStamp(Const Value: Integer);
+    function GetVersion: String;
+    procedure SetVersion(Const Value: String);
+    function GetNetProtocol: IPascalCoinNetProtocol;
+    function GetBlocks: Integer;
+    procedure SetBlocks(Const Value: Integer);
+    function GetNetStats: IPascalNetStats;
+    function GetNodeServers: IPascalCoinList<IPascalCoinServer>;
+    function GetSBH: String;
+    procedure SetSBH(const Value: String);
+    function GetPOW: String;
+    procedure SetPOW(const Value: String);
+    function GetOpenSSL: String;
+    procedure SetOpenSSL(const Value: String);
 
+    function GetTimeStampAsDateTime: TDateTime;
+    procedure SetTimeStampAsDateTime(const Value: TDateTime);
 
-  function GetTimeStampAsDateTime: TDateTime;
-  procedure SetTimeStampAsDateTime(const Value: TDateTime);
+  public
+    constructor Create(const AJSON: TJSONValue);
+  end;
 
-public
-  constructor Create(const AJSON: TJSONValue);
-end;
+  TNetProtocol = class(TInterfacedObject, IPascalCoinNetProtocol)
+  private
+    FVer: Integer;
+    FVer_A: Integer;
+  protected
+    function GetVer: Integer;
+    procedure SetVer(const Value: Integer);
+    function GetVer_A: Integer;
+    procedure SetVer_A(const Value: Integer);
+  public
+  end;
 
+  TPascalCoinNetStats = class(TInterfacedObject, IPascalNetStats)
+  private
+    FActive: Integer;
+    FClients: Integer;
+    FServers: Integer;
+    FServers_t: Integer;
+    FTotal: Integer;
+    FTClients: Integer;
+    FTServers: Integer;
+    FBReceived: Integer;
+    FBSend: Integer;
+  protected
+    function GetActive: Integer;
+    procedure SetActive(const Value: Integer);
+    function GetClients: Integer;
+    procedure SetClients(const Value: Integer);
+    function GetServers: Integer;
+    procedure SetServers(const Value: Integer);
+    function GetServers_t: Integer;
+    procedure SetServers_t(const Value: Integer);
+    function GetTotal: Integer;
+    procedure SetTotal(const Value: Integer);
+    function GetTClients: Integer;
+    procedure SetTClients(const Value: Integer);
+    function GetTServers: Integer;
+    procedure SetTServers(const Value: Integer);
+    function GetBReceived: Integer;
+    procedure SetBReceived(const Value: Integer);
+    function GetBSend: Integer;
+    procedure SetBSend(const Value: Integer);
+  public
+  end;
 
-TNetProtocol = class(TInterfacedObject, IPascalCoinNetProtocol)
-private
-  FVer: Integer;
-  FVer_A: Integer;
-protected
-  function GetVer: Integer;
-  procedure SetVer(const Value: Integer);
-  function GetVer_A: Integer;
-  procedure SetVer_A(const Value: Integer);
-public
-end;
-
-TPascalCoinNetStats = class(TInterfacedObject, IPascalNetStats)
-private
- FActive: Integer;
- FClients: Integer;
- FServers: Integer;
- FServers_t: Integer;
- FTotal: Integer;
- FTClients: Integer;
- FTServers: Integer;
- FBReceived: Integer;
- FBSend: Integer;
-protected
-   function GetActive: Integer;
-   procedure SetActive(const Value: Integer);
-   function GetClients: Integer;
-   procedure SetClients(const Value: Integer);
-   function GetServers: Integer;
-   procedure SetServers(const Value: Integer);
-   function GetServers_t: Integer;
-   procedure SetServers_t(const Value: Integer);
-   function GetTotal: Integer;
-   procedure SetTotal(const Value: Integer);
-   function GetTClients: Integer;
-   procedure SetTClients(const Value: Integer);
-   function GetTServers: Integer;
-   procedure SetTServers(const Value: Integer);
-   function GetBReceived: Integer;
-   procedure SetBReceived(const Value: Integer);
-   function GetBSend: Integer;
-   procedure SetBSend(const Value: Integer);
-public
-end;
-
-TPascalCoinServer = class(TInterfacedObject, IPascalCoinServer)
-private
-  FIP: String;
-  FPort: Integer;
-  FLastCon: Integer;
-  FAttempts: Integer;
-protected
-  function GetIP: String;
-  procedure SetIP(const Value: String);
-  function GetPort: Integer;
-  procedure SetPort(const Value: Integer);
-  function GetLastCon: Integer;
-  procedure SetLastCon(const Value: Integer);
-  function GetAttempts: Integer;
-  procedure SetAttempts(const Value: Integer);
-  function GetLastConAsDateTime: TDateTime;
-  procedure SetLastConAsDateTime(const Value: TDateTime);
-public
-end;
+  TPascalCoinServer = class(TInterfacedObject, IPascalCoinServer)
+  private
+    FIP: String;
+    FPort: Integer;
+    FLastCon: Integer;
+    FAttempts: Integer;
+  protected
+    function GetIP: String;
+    procedure SetIP(const Value: String);
+    function GetPort: Integer;
+    procedure SetPort(const Value: Integer);
+    function GetLastCon: Integer;
+    procedure SetLastCon(const Value: Integer);
+    function GetAttempts: Integer;
+    procedure SetAttempts(const Value: Integer);
+    function GetLastConAsDateTime: TDateTime;
+    procedure SetLastConAsDateTime(const Value: TDateTime);
+  public
+  end;
 
 implementation
 
@@ -136,7 +134,7 @@ begin
   inherited Create;
   FNdeServers := TPascalCoinList<IPascalCoinServer>.Create;
   if AJSON <> nil then
-     LoadFromJSON(AJSON);
+    LoadFromJSON(AJSON);
 end;
 
 function TPascalCoinNodeStatus.GetBlocks: Integer;
@@ -149,7 +147,8 @@ begin
   result := FLocked;
 end;
 
-function TPascalCoinNodeStatus.GetNodeServers: IPascalCoinList<IPascalCoinServer>;
+function TPascalCoinNodeStatus.GetNodeServers
+  : IPascalCoinList<IPascalCoinServer>;
 begin
   result := FNdeServers;
 end;
@@ -157,7 +156,7 @@ end;
 function TPascalCoinNodeStatus.GetNetProtocol: IPascalCoinNetProtocol;
 begin
   if FNetProtocol = nil then
-     FNetProtocol := TNetProtocol.Create;
+    FNetProtocol := TNetProtocol.Create;
   result := FNetProtocol;
 end;
 
@@ -217,23 +216,24 @@ begin
 end;
 
 procedure TPascalCoinNodeStatus.LoadFromJSON(const Value: TJSONValue);
-var lObj, sObj: TJSONObject;
-    lArr: TJSONArray;
-    lJV: TJSONValue;
-    lServer: IPascalCoinServer;
+var
+  lObj, sObj: TJSONObject;
+  lArr: TJSONArray;
+  lJV: TJSONValue;
+  lServer: IPascalCoinServer;
 begin
   lObj := (Value as TJSONObject);
   TJSON.JSONToObject(Self, lObj);
   sObj := lObj.GetValue('netprotocol') as TJSONObject;
-  FNetProtocol := TJSON.JsonToObject<TNetProtocol>(sObj);
+  FNetProtocol := TJSON.JSONToObject<TNetProtocol>(sObj);
   sObj := lObj.GetValue('netstats') as TJSONObject;
-  FNetStats := TJSON.JsonToObject<TPascalCoinNetStats>(sObj);
+  FNetStats := TJSON.JSONToObject<TPascalCoinNetStats>(sObj);
   lArr := lObj.GetValue('nodeservers') as TJSONArray;
   if Assigned(lArr) and (lArr.Count > 0) then
   begin
     for lJV in lArr do
     begin
-      lServer := TJSON.JsonToObject<TPascalCoinServer>(lJV as TJSONObject);
+      lServer := TJSON.JSONToObject<TPascalCoinServer>(lJV as TJSONObject);
       FNdeServers.Add(lServer)
     end;
   end;

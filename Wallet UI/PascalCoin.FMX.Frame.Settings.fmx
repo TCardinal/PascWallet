@@ -1,7 +1,7 @@
 inherited SettingsFrame: TSettingsFrame
   Align = Client
-  Size.Width = 347.000000000000000000
-  Size.Height = 303.000000000000000000
+  Size.Width = 406.000000000000000000
+  Size.Height = 434.000000000000000000
   object ButtonLayout: TLayout
     Align = Bottom
     Padding.Left = 2.000000000000000000
@@ -13,8 +13,8 @@ inherited SettingsFrame: TSettingsFrame
     Margins.Right = 2.000000000000000000
     Margins.Bottom = 2.000000000000000000
     Position.X = 2.000000000000000000
-    Position.Y = 264.000000000000000000
-    Size.Width = 343.000000000000000000
+    Position.Y = 395.000000000000000000
+    Size.Width = 402.000000000000000000
     Size.Height = 37.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
@@ -27,13 +27,12 @@ inherited SettingsFrame: TSettingsFrame
       Margins.Top = 2.000000000000000000
       Margins.Right = 2.000000000000000000
       Margins.Bottom = 2.000000000000000000
-      Position.X = 271.945953369140600000
+      Position.X = 330.945953369140600000
       Position.Y = 4.000000000000000000
       Size.Width = 67.054046630859380000
       Size.Height = 29.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      OnClick = SaveButtonClick
     end
     object CancelButton: TButton
       Action = CancelAction
@@ -44,7 +43,7 @@ inherited SettingsFrame: TSettingsFrame
       Margins.Top = 2.000000000000000000
       Margins.Right = 2.000000000000000000
       Margins.Bottom = 2.000000000000000000
-      Position.X = 200.945953369140600000
+      Position.X = 259.945953369140600000
       Position.Y = 4.000000000000000000
       Size.Width = 67.000000000000000000
       Size.Height = 29.000000000000000000
@@ -58,18 +57,19 @@ inherited SettingsFrame: TSettingsFrame
     Padding.Top = 3.000000000000000000
     Padding.Right = 3.000000000000000000
     Padding.Bottom = 3.000000000000000000
-    Size.Width = 347.000000000000000000
-    Size.Height = 262.000000000000000000
+    Size.Width = 406.000000000000000000
+    Size.Height = 393.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    object Layout1: TLayout
+    object AdvancedOptionsLayout: TLayout
       Align = Top
+      Margins.Bottom = 5.000000000000000000
       Position.X = 3.000000000000000000
       Position.Y = 3.000000000000000000
-      Size.Width = 341.000000000000000000
+      Size.Width = 400.000000000000000000
       Size.Height = 30.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 0
+      TabOrder = 1
       object AdvancedOptionsLabel: TLabel
         Align = Left
         Size.Width = 185.000000000000000000
@@ -81,12 +81,152 @@ inherited SettingsFrame: TSettingsFrame
       object AdvancedOptionsSwitch: TSwitch
         Align = Right
         IsChecked = False
-        Position.X = 263.000000000000000000
+        Position.X = 322.000000000000000000
         Size.Width = 78.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
         OnSwitch = AdvancedOptionsSwitchSwitch
+      end
+    end
+    object NodesLayout: TLayout
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 108.000000000000000000
+      Size.Width = 400.000000000000000000
+      Size.Height = 264.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object NodesHeadingLayout: TLayout
+        Align = Top
+        Size.Width = 400.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object NodesHeadingLabel: TLabel
+          Align = Left
+          Size.Width = 120.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'listboxheaderlabel'
+          Text = 'Nodes'
+          TabOrder = 0
+        end
+        object AddNodeButton: TSpeedButton
+          Action = AddNodeAction
+          Align = Right
+          Enabled = True
+          StyledSettings = [Family, FontColor]
+          ImageIndex = -1
+          Position.X = 304.000000000000000000
+          Size.Width = 48.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'addtoolbutton'
+          TextSettings.Font.Size = 32.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+        object SpeedButton1: TSpeedButton
+          Action = SelectNodeAction
+          Align = Right
+          Enabled = True
+          StyledSettings = [Family, FontColor]
+          ImageIndex = -1
+          Position.X = 352.000000000000000000
+          Size.Width = 48.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'actiontoolbutton'
+          TextSettings.Font.Size = 24.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      object NodesList: TListBox
+        Align = Client
+        Size.Width = 400.000000000000000000
+        Size.Height = 214.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'listboxstyle'
+        TabOrder = 1
+        DisableFocusEffect = True
+        ItemHeight = 40.000000000000000000
+        DefaultItemStyles.ItemStyle = 'listboxitembottomdetail'
+        DefaultItemStyles.GroupHeaderStyle = ''
+        DefaultItemStyles.GroupFooterStyle = ''
+        Viewport.Width = 400.000000000000000000
+        Viewport.Height = 214.000000000000000000
+        object ListBoxItem1: TListBoxItem
+          ItemData.Detail = 'http://url.goes.here'
+          ItemData.Accessory = aCheckmark
+          Size.Width = 396.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Text = 'Name'
+        end
+      end
+    end
+    object MultiAccountLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 38.000000000000000000
+      Size.Width = 400.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object MultiAccountLabel: TLabel
+        Align = Left
+        Size.Width = 273.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Enable multi account transaction (not active yet)'
+        TabOrder = 0
+      end
+      object MultiAccountSwitch: TSwitch
+        Align = Right
+        IsChecked = False
+        Position.X = 322.000000000000000000
+        Size.Width = 78.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        OnSwitch = AdvancedOptionsSwitchSwitch
+      end
+    end
+    object UnlockTimeLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 73.000000000000000000
+      Size.Width = 400.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object UnlockTimeLabel: TLabel
+        Align = Left
+        AutoSize = True
+        Size.Width = 233.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Lock wallet if not active for'
+        TabOrder = 0
+      end
+      object UnlockTimeCombo: TComboBox
+        Align = Right
+        Items.Strings = (
+          'Never lock'
+          '1 minute'
+          '10 minutes'
+          '30 minutes'
+          '1 hour')
+        ItemIndex = 1
+        Position.X = 272.000000000000000000
+        Size.Width = 128.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        OnChange = UnlockTimeComboChange
       end
     end
   end
@@ -96,13 +236,30 @@ inherited SettingsFrame: TSettingsFrame
     object SaveAction: TAction
       Text = 'Save'
       ImageIndex = 3
+      OnExecute = SaveActionExecute
       ImageIndex = 3
     end
     object CancelAction: TAction
       Text = 'Cancel'
       Enabled = False
       ImageIndex = 5
+      OnExecute = CancelActionExecute
       ImageIndex = 5
     end
+    object AddNodeAction: TAction
+      Text = 'Add Node'
+      OnExecute = AddNodeActionExecute
+    end
+    object SelectNodeAction: TAction
+      Text = 'SelectNodeAction'
+    end
+  end
+  object SettingsFrameStand: TFrameStand
+    AnimationShow = 'OnShow*'
+    AnimationHide = 'OnHide*'
+    CommonActionPrefix = 'ca_'
+    DefaultStyleName = 'framestand'
+    Left = 160
+    Top = 184
   end
 end

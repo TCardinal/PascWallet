@@ -2,163 +2,180 @@ unit PascalCoin.Wallet.Interfaces;
 
 interface
 
-uses System.Classes, System.SysUtils, ClpIAsymmetricCipherKeyPair;
+uses System.Classes, System.SysUtils, Spring, Spring.Container,
+  PascalCoin.Utils.Interfaces;
 
 type
 
-{$SCOPEDENUMS ON}
-TKeyType = (SECP256K1, SECP384R1, SECP521R1, SECT283K1);
-{$SCOPEDENUMS OFF}
-
-TRawBytes = TBytes;
-
-/// <summary>
-///   current state of the wallet
-/// </summary>
-TEncryptionState = (
   /// <summary>
-  ///   The wallet is not encrypted
+  /// current state of the wallet
   /// </summary>
-  esPlainText,
-  /// <summary>
-  ///   The wallet is encrypted and no valid password has been entered
-  /// </summary>
-  esEncrypted,
-  /// <summary>
-  ///   The wallet is encrypted and a valid password is available
-  /// </summary>
-  esDecrypted);
+  TEncryptionState = (
+    /// <summary>
+    /// The wallet is not encrypted
+    /// </summary>
+    esPlainText,
+    /// <summary>
+    /// The wallet is encrypted and no valid password has been entered
+    /// </summary>
+    esEncrypted,
+    /// <summary>
+    /// The wallet is encrypted and a valid password is available
+    /// </summary>
+    esDecrypted);
 
+  IPublicKey = Interface;
+  IPrivateKey = interface;
 
-IPublicKey = Interface;
-IPrivateKey = interface;
+  TPascalCoinBooleanEvent = procedure(const AValue: Boolean) of object;
+  TPascalCoinCurrencyEvent = procedure(const AValue: Currency) of object;
+  TPascalCoinIntegerEvent = procedure(const AValue: Integer) of object;
 
-IKeyTools = interface
-['{16D43FE0-6A73-446D-A95E-2C7250C10DA4}']
- function RetrieveKeyType(AValue: Int32): TKeyType;
- function GetKeyTypeNumericValue(AKeyType: TKeyType): Int32;
- function GetPascalCoinPublicKeyAsHexString(AKeyType: TKeyType; const AXInput, AYInput: TBytes): string;
- function GetPascalCoinPublicKeyAsBase58(const APascalCoinPublicKey: string): String;
- function DecryptPascalCoinPrivateKey(const AEncryptedPascalCoinPrivateKey, APassword: string;
-    out ADecryptedPascalCoinPrivateKey: TRawBytes): boolean;
- function EncryptPascalCoinPrivateKey(const APascalCoinPrivateKey, APassword: string): TRawBytes;
- function GetPascalCoinPrivateKeyAsHexString(AKeyType: TKeyType; const AInput: TRawBytes): string;
- function GetPascalCoinPrivateKeyEncryptedAsHexString(const APascalCoinPrivateKey, APassword: string): string;
+  IStreamOp = interface
+    ['{31C56DB6-F278-44D1-97F4-CEE099597E95}']
+    function ReadRawBytes(Stream: TStream; var Value: TRawBytes): Integer;
+    function WriteRawBytes(Stream: TStream; const Value: TRawBytes)
+      : Integer; overload;
+    function ReadString(Stream: TStream; var Value: String): Integer;
+    function WriteAccountKey(Stream: TStream; const Value: IPublicKey): Integer;
+    function ReadAccountKey(Stream: TStream; var Value: IPublicKey): Integer;
+    function SaveStreamToRawBytes(Stream: TStream): TRawBytes;
+    procedure LoadStreamFromRawBytes(Stream: TStream; const raw: TRawBytes);
+  end;
 
- function GenerateECKeyPair(AKeyType: TKeyType): IAsymmetricCipherKeyPair;
- function GetPrivateKey(const AKeyPair: IAsymmetricCipherKeyPair): TRawBytes;
- function GetPublicKeyAffineX(const AKeyPair: IAsymmetricCipherKeyPair): TRawBytes;
- function GetPublicKeyAffineY(const AKeyPair: IAsymmetricCipherKeyPair): TRawBytes;
+  IPascalCoinWalletConfig = interface
+    ['{6BE2425B-3C4E-4986-9A01-1725D926820C}']
+    function GetContainer: TContainer;
+    procedure SetContainer(Value: TContainer);
+    property Container: TContainer read GetContainer write SetContainer;
+  end;
 
- function DoPascalCoinAESEncrypt(const AMessage, APassword: TRawBytes): TBytes;
- function DoPascalCoinAESDecrypt(const AEncryptedMessage, APassword: TRawBytes; out ADecryptedMessage: TRawBytes): boolean;
+  IWallet = interface;
 
-end;
+  IPrivateKey = Interface
+    ['{1AD376BC-F871-4E2E-BB33-9EFF89E6D5DF}']
+    function GetKey: TRawBytes;
+    procedure SetKey(Value: TRawBytes);
+    function GetKeyType: TKeyType;
+    procedure SetKeyType(const Value: TKeyType);
+    function GetAsHexStr: String;
 
-IStreamOp = interface
-['{31C56DB6-F278-44D1-97F4-CEE099597E95}']
-  function ReadRawBytes(Stream: TStream; var Value: TRawBytes): Integer;
-  function WriteRawBytes(Stream: TStream; const value: TRawBytes): Integer; overload;
-  function ReadString(Stream: TStream; var value: String): Integer;
-  function WriteAccountKey(Stream: TStream; const value: IPublicKey): Integer;
-  function ReadAccountKey(Stream: TStream; var value : IPublicKey): Integer;
-  function SaveStreamToRawBytes(Stream: TStream) : TRawBytes;
-  procedure LoadStreamFromRawBytes(Stream: TStream; const raw : TRawBytes);
-end;
+    property Key: TRawBytes read GetKey write SetKey;
+    property KeyType: TKeyType read GetKeyType write SetKeyType;
+    property AsHexStr: String read GetAsHexStr;
+  End;
 
-IPrivateKey = Interface
-['{1AD376BC-F871-4E2E-BB33-9EFF89E6D5DF}']
-  function GetKey: TBytes;
-  procedure SetKey(Value: TBytes);
-  function GetKeyType: TKeyType;
-  procedure SetKeyType(const Value: TKeyType);
-  function GetAsHexStr: String;
+  IPublicKey = interface
+    ['{95FFFBCC-F067-4FFD-8103-3EEE3C68EA92}']
+    function GetNID: Word;
+    procedure SetNID(const Value: Word);
+    function GetX: TBytes;
+    procedure SetX(const Value: TRawBytes);
+    function GetY: TBytes;
+    procedure SetY(const Value: TRawBytes);
 
-  property Key: TBytes read GetKey write SetKey;
-  property KeyType: TKeyType read GetKeyType write SetKeyType;
-  property AsHexStr: String read GetAsHexStr;
-End;
+    function GetKeyType: TKeyType;
+    procedure SetKeyType(const Value: TKeyType);
+    function GetKeyTypeAsStr: string;
+    procedure SetKeyTypeAsStr(const Value: string);
+    function GetAsHexStr: string;
+    function GetAsBase58: string;
 
+    /// <summary>
+    /// Key Type as integer. makes reading from wallet simpler
+    /// </summary>
+    property NID: Word read GetNID write SetNID;
+    property X: TRawBytes read GetX write SetX;
+    property Y: TRawBytes read GetY write SetY;
+    /// <summary>
+    /// converts NID to TKeyType
+    /// </summary>
+    property KeyType: TKeyType read GetKeyType write SetKeyType;
+    property KeyTypeAsStr: String read GetKeyTypeAsStr write SetKeyTypeAsStr;
+    property AsHexStr: string read GetAsHexStr;
+    property AsBase58: string read GetAsBase58;
+  end;
 
-IPublicKey = interface
-['{95FFFBCC-F067-4FFD-8103-3EEE3C68EA92}']
-  function GetNID: Word;
-  procedure SetNID(const Value: word);
-  function GetX: TBytes;
-  procedure SetX(const Value: TRawBytes);
-  function GetY: TBytes;
-  procedure SetY(const Value: TRawBytes);
+  IWalletKey = interface
+    ['{DABC9025-971C-4A59-BCAF-558C385DA379}']
+    function GetName: String;
+    procedure SetName(const Value: String);
+    function GetKeyType: TKeyType;
+    function GetPublicKey: IPublicKey;
+    function GetCryptedKey: TRawBytes;
+    procedure SetCryptedKey(const Value: TBytes);
+    function GetState: TEncryptionState;
 
-  function GetKeyType: TKeyType;
-  procedure SetKeyType(const Value: TKeyType);
-  function GetKeyTypeAsStr: string;
-  procedure SetKeyTypeAsStr(const Value: string);
-  function GetAsHexStr: string;
-  function GetAsBase58: string;
+    function GetPrivateKey: IPrivateKey;
 
-  /// <summary>
-  ///   Key Type as integer. makes reading from wallet simpler
-  /// </summary>
-  property NID: Word read GetNID write SetNID;
-  property X: TRawBytes read GetX write SetX;
-  property Y: TRawBytes read GetY write SetY;
-  /// <summary>
-  ///   converts NID to TKeyType
-  /// </summary>
-  property KeyType: TKeyType read GetKeyType write SetKeyType;
-  property KeyTypeAsStr: String read GetKeyTypeAsStr write SetKeyTypeAsStr;
-  property AsHexStr: string read GetAsHexStr;
-  property AsBase58: string read GetAsBase58;
-end;
+    Function HasPrivateKey: Boolean;
 
+    property Name: String read GetName write SetName;
+    property KeyType: TKeyType read GetKeyType;
+    property CryptedKey: TRawBytes read GetCryptedKey write SetCryptedKey;
+    property PublicKey: IPublicKey read GetPublicKey;
+    property PrivateKey: IPrivateKey read GetPrivateKey;
+    property State: TEncryptionState read GetState;
+  end;
 
-IWalletKey = interface
-['{DABC9025-971C-4A59-BCAF-558C385DA379}']
-  function GetName: String;
-  procedure SetName(const Value: String);
-  function GetPublicKey: IPublicKey;
-  function GetCryptedKey: TRawBytes;
-  procedure SetCryptedKey(const Value: TBytes);
-  function GetState: TEncryptionState;
+  IWallet = interface
+    ['{A954381D-7085-46CE-82A1-87CCA6554309}']
+    function GetWalletKey(const Index: Integer): IWalletKey;
 
-  function GetPrivateKey: IPrivateKey;
+    /// <summary>
+    /// Value is True if the new state is Locked
+    /// </summary>
+    function GetOnLockChange: IEvent<TPascalCoinBooleanEvent>;
 
-  Function HasPrivateKey : boolean;
+    function ChangePassword(const Value: string): Boolean;
+    function GetWalletFileName: String;
+    function GetState: TEncryptionState;
+    function GetLocked: Boolean;
 
-  property Name : String read GetName write SetName;
-  property CryptedKey: TRawBytes read GetCryptedKey write SetCryptedKey;
-  property PublicKey : IPublicKey read GetPublicKey;
-  property PrivateKey : IPrivateKey read GetPrivateKey;
-  property State: TEncryptionState read GetState;
-end;
+    /// <summary>
+    /// The result is the success of the function not the state on the lock
+    /// </summary>
+    function Lock: Boolean;
+    function Unlock(const APassword: string): Boolean;
 
+    function AddWalletKey(Value: IWalletKey): Integer;
+    function Count: Integer;
+    procedure SaveToStream;
+    function CreateNewKey(const AKeyType: TKeyType;
+      const AName: string): Integer;
 
-IWallet = interface
-['{A954381D-7085-46CE-82A1-87CCA6554309}']
-  function GetWalletKey(const Index: Integer): IWalletKey;
+    /// <summary>
+    /// adds all encoded public keys to a TStrings
+    /// </summary>
+    /// <param name="AEncoding">
+    /// base58 or Hex
+    /// </param>
+    procedure PublicKeysToStrings(Value: TStrings;
+      const AEncoding: TKeyEncoding);
 
-  /// <summary>
-  ///   Value is True if the new state is Locked
-  /// </summary>
-  procedure SetOnLockChange(Value: TProc<boolean>);
+    /// <summary>
+    /// Finds a key based on a search for an encoded public key
+    /// </summary>
+    /// <param name="Value">
+    /// encoded public key
+    /// </param>
+    /// <param name="AEncoding">
+    /// encoding used, default is Hex
+    /// </param>
+    function FindKey(const Value: string;
+      const AEncoding: TKeyEncoding = TKeyEncoding.Hex): IWalletKey;
 
-  function ChangePassword(const Value: string): boolean;
-  function GetWalletFileName: String;
-  function GetState: TEncryptionState;
-  function GetLocked: Boolean;
-  procedure Lock;
-  function Unlock(const APassword: string): boolean;
+    property Key[const Index: Integer]: IWalletKey read GetWalletKey; default;
+    property State: TEncryptionState read GetState;
+    property Locked: Boolean read GetLocked;
 
-  function AddWalletKey(Value: IWalletKey): integer;
-  function Count: Integer;
-  procedure SaveToStream;
-  function CreateNewKey(const AKeyType: TKeyType; const AName: string): Integer;
-  property Key[const Index: Integer]: IWalletKey read GetWalletKey; default;
-  property State: TEncryptionState read GetState;
-  property Locked: Boolean read GetLocked;
-  property OnLockChange: TProc<Boolean> write SetOnLockChange;
-end;
+    /// <summary>
+    /// The Value in the procedure is the current state of the wallet lock
+    /// </summary>
+    property OnLockChange: IEvent<TPascalCoinBooleanEvent> read GetOnLockChange;
+  end;
 
+  TPascalCoinNetType = (ntLive, ntTestNet, ntPrivate);
 
 implementation
 

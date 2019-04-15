@@ -1,16 +1,15 @@
-object KeysFrame: TKeysFrame
+inherited KeysFrame: TKeysFrame
   Align = Client
-  Size.Width = 547.000000000000000000
-  Size.Height = 471.000000000000000000
-  Size.PlatformDefault = False
+  Size.Width = 636.000000000000000000
+  Size.Height = 434.000000000000000000
   object Layout1: TLayout
     Align = Client
     Padding.Left = 3.000000000000000000
     Padding.Top = 3.000000000000000000
     Padding.Right = 3.000000000000000000
     Padding.Bottom = 3.000000000000000000
-    Size.Width = 547.000000000000000000
-    Size.Height = 454.000000000000000000
+    Size.Width = 636.000000000000000000
+    Size.Height = 417.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object KeyListLayout: TLayout
@@ -21,7 +20,7 @@ object KeysFrame: TKeysFrame
       Padding.Bottom = 3.000000000000000000
       Position.X = 3.000000000000000000
       Position.Y = 3.000000000000000000
-      Size.Width = 541.000000000000000000
+      Size.Width = 630.000000000000000000
       Size.Height = 230.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
@@ -39,8 +38,8 @@ object KeysFrame: TKeysFrame
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnItemClick = KeyListBoxItemClick
-        Viewport.Width = 310.000000000000000000
-        Viewport.Height = 220.000000000000000000
+        Viewport.Width = 314.000000000000000000
+        Viewport.Height = 224.000000000000000000
       end
       object ButtonsLayout: TLayout
         Align = Left
@@ -117,6 +116,13 @@ object KeysFrame: TKeysFrame
           TabOrder = 0
           Text = 'Delete Key'
         end
+        object Button1: TButton
+          Position.X = 56.000000000000000000
+          Position.Y = 176.000000000000000000
+          TabOrder = 5
+          Text = 'Button1'
+          OnClick = Button1Click
+        end
       end
     end
     object NameLayout: TLayout
@@ -128,7 +134,7 @@ object KeysFrame: TKeysFrame
       Margins.Bottom = 3.000000000000000000
       Position.X = 3.000000000000000000
       Position.Y = 233.000000000000000000
-      Size.Width = 541.000000000000000000
+      Size.Width = 630.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
@@ -156,7 +162,7 @@ object KeysFrame: TKeysFrame
       object ChangeKeyNameButton: TButton
         Align = Right
         Enabled = False
-        Position.X = 400.000000000000000000
+        Position.X = 489.000000000000000000
         Position.Y = 3.000000000000000000
         Size.Width = 138.000000000000000000
         Size.Height = 42.000000000000000000
@@ -175,7 +181,7 @@ object KeysFrame: TKeysFrame
       Margins.Bottom = 3.000000000000000000
       Position.X = 3.000000000000000000
       Position.Y = 284.000000000000000000
-      Size.Width = 541.000000000000000000
+      Size.Width = 630.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
@@ -209,7 +215,7 @@ object KeysFrame: TKeysFrame
       Padding.Bottom = 3.000000000000000000
       Position.X = 3.000000000000000000
       Position.Y = 335.000000000000000000
-      Size.Width = 541.000000000000000000
+      Size.Width = 630.000000000000000000
       Size.Height = 74.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 3
@@ -220,12 +226,12 @@ object KeysFrame: TKeysFrame
         TextSettings.WordWrap = True
         Align = Client
         Margins.Left = 3.000000000000000000
-        Size.Width = 391.000000000000000000
+        Size.Width = 480.000000000000000000
         Size.Height = 68.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
-        Viewport.Width = 387.000000000000000000
-        Viewport.Height = 64.000000000000000000
+        Viewport.Width = 480.000000000000000000
+        Viewport.Height = 68.000000000000000000
       end
       object PublicKeyLabel: TLabel
         Align = Left
@@ -240,7 +246,7 @@ object KeysFrame: TKeysFrame
       object CopyPublicKeyBtn: TButton
         Align = Right
         Enabled = False
-        Position.X = 472.000000000000000000
+        Position.X = 561.000000000000000000
         Position.Y = 3.000000000000000000
         Size.Width = 66.000000000000000000
         Size.Height = 68.000000000000000000
@@ -253,7 +259,7 @@ object KeysFrame: TKeysFrame
   end
   object StateLabel: TLabel
     Align = Top
-    Size.Width = 547.000000000000000000
+    Size.Width = 636.000000000000000000
     Size.Height = 17.000000000000000000
     Size.PlatformDefault = False
     StyleLookup = 'labelstyle'

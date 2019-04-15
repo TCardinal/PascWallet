@@ -3,7 +3,8 @@ unit PascalCoin.FMX.Frame.Base;
 interface
 
 uses
-  System.SysUtils, System.Types, System.Classes, System.UITypes, System.Variants,
+  System.SysUtils, System.Types, System.Classes, System.UITypes,
+  System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls;
 
 type
@@ -25,12 +26,11 @@ type
 implementation
 
 {$R *.fmx}
-
 { TBaseFrame }
 
 procedure TBaseFrame.Hiding;
 begin
-//
+  //
 end;
 
 procedure TBaseFrame.InitialiseFrame;
@@ -40,13 +40,13 @@ end;
 
 procedure TBaseFrame.Showing;
 begin
-//
+  //
 end;
 
 procedure TBaseFrame.WriteToStatusBar(const Value: string);
 begin
   if Assigned(FOnStatusBarWrite) then
-     FOnStatusBarWrite(Value);
+    FOnStatusBarWrite(Value);
 end;
 
 end.

@@ -6,25 +6,25 @@ uses PascalCoin.RPC.Interfaces;
 
 type
 
-TPascalCoinBlock = class(TInterfacedObject, IPascalCoinBlock)
-private
-  Fblock: Integer;
-  Fenc_pubkey: String;
-  Freward: Currency;
-  Ffee: Currency;
-  Fver: Integer;
-  Fver_a: Integer;
-  Ftimestamp: Integer;
-  Ftarget: Integer;
-  Fnonce: Integer;
-  Fpayload: String;
-  Fsbh: String;
-  Foph: String;
-  Fpow: String;
-  Foperations: Integer;
-  Fhashratekhs: Integer;
-  Fmaturation: Integer;
-protected
+  TPascalCoinBlock = class(TInterfacedObject, IPascalCoinBlock)
+  private
+    Fblock: Integer;
+    Fenc_pubkey: String;
+    Freward: Currency;
+    Ffee: Currency;
+    Fver: Integer;
+    Fver_a: Integer;
+    Ftimestamp: Integer;
+    Ftarget: Integer;
+    Fnonce: Integer;
+    Fpayload: String;
+    Fsbh: String;
+    Foph: String;
+    Fpow: String;
+    Foperations: Integer;
+    Fhashratekhs: Integer;
+    Fmaturation: Integer;
+  protected
     function GetBlock: Integer;
     function GetEnc_PubKey: String;
     function GetFee: Currency;
@@ -60,8 +60,8 @@ protected
 
     function GetDelphiTimeStamp: TDateTime;
     procedure SetDelphiTimeStamp(const Value: TDateTime);
-public
-end;
+  public
+  end;
 
 implementation
 
@@ -166,7 +166,7 @@ end;
 
 procedure TPascalCoinBlock.SetEnc_PubKey(const Value: String);
 begin
-   Fenc_pubkey := Value;
+  Fenc_pubkey := Value;
 end;
 
 procedure TPascalCoinBlock.SetFee(const Value: Currency);

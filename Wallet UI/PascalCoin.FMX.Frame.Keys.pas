@@ -3,9 +3,11 @@ unit PascalCoin.FMX.Frame.Keys;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Layouts, FMX.ListBox, FMX.Controls.Presentation, PascalCoin.Wallet.Interfaces,
+  FMX.Layouts, FMX.ListBox, FMX.Controls.Presentation,
+  PascalCoin.Wallet.Interfaces,
   FMX.ScrollBox, FMX.Memo, PascalCoin.FMX.Frame.Base, System.ImageList,
   FMX.ImgList, FrameStand, PascalCoin.Frame.NewKey;
 
@@ -34,10 +36,12 @@ type
     ChangeKeyNameButton: TButton;
     CopyPublicKeyBtn: TButton;
     FrameStandKeys: TFrameStand;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
     procedure ChangeKeyNameButtonClick(Sender: TObject);
     procedure CopyPublicKeyBtnClick(Sender: TObject);
-    procedure KeyListBoxItemClick(const Sender: TCustomListBox; const Item:
-        TListBoxItem);
+    procedure KeyListBoxItemClick(const Sender: TCustomListBox;
+      const Item: TListBoxItem);
     procedure NewKeyButtonClick(Sender: TObject);
     procedure PasswordButtonClick(Sender: TObject);
   private
@@ -51,12 +55,14 @@ type
     procedure SetSelectedIndex(const Value: Integer);
     procedure SetSelectedKey(const Value: IWalletKey);
     procedure UpdateSelectKeyDisplay;
+    procedure OnLockChange(const ALockState: Boolean);
   protected
     property SelectedIndex: Integer read FSelectedIndex write SetSelectedIndex;
     property SelectedKey: IWalletKey read FSelectedKey write SetSelectedKey;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     procedure InitialiseFrame; override;
   end;
 
@@ -86,73 +92,89 @@ begin
 
   KeyListBox.BeginUpdate;
   KeyListBox.ListItems[FSelectedIndex].Text := FSelectedKey.Name + ' (' +
-      cStateText[FSelectedKey.State] + ')';
+    cStateText[FSelectedKey.State] + ')';
   KeyListBox.EndUpdate;
 
 end;
 
 procedure TKeysFrame.ChangeKeyNameButtonClick(Sender: TObject);
-var lNewName: string;
+var
+  lNewName: string;
 begin
   TDialogService.InputQuery('Rename Key', ['New Name'], [lNewName],
     procedure(const AResult: TModalResult; const AValues: array of string)
-    var aName: string;
+    var
+      aName: string;
     begin
       if (AResult <> mrOK) or (Length(AValues) = 0) then
-         Exit;
+        Exit;
       aName := AValues[0].Trim;
       ChangeKeyName(aName);
-    end
-  );
+    end);
 end;
 
 procedure TKeysFrame.CheckCopyFunction;
 var
   Svc: IFMXClipboardService;
 begin
-  FCanCopy :=
-    TPlatformServices.Current.SupportsPlatformService(IFMXClipboardService, Svc);
+  FCanCopy := TPlatformServices.Current.SupportsPlatformService
+    (IFMXClipboardService, Svc);
 end;
 
 procedure TKeysFrame.CopyPublicKeyBtnClick(Sender: TObject);
 var
   Svc: IFMXClipboardService;
 begin
-  if TPlatformServices.Current.SupportsPlatformService(IFMXClipboardService, Svc) then
+  if TPlatformServices.Current.SupportsPlatformService(IFMXClipboardService, Svc)
+  then
   begin
-     Svc.SetClipboard(PublicKeyValue.Text);
-     WriteToStatusBar(SPublicKeyCopiedToClipboard);
+    Svc.SetClipboard(PublicKeyValue.Text);
+    WriteToStatusBar(SPublicKeyCopiedToClipboard);
   end;
 end;
 
 constructor TKeysFrame.Create(AOwner: TComponent);
 begin
   inherited;
+  MainDataModule.Wallet.OnLockChange.Add(OnLockChange);
   CheckCopyFunction;
   ChangeKeyNameButton.Enabled := False;
   SetPasswordButtonText;
 end;
 
+destructor TKeysFrame.Destroy;
+begin
+  MainDataModule.Wallet.OnLockChange.Remove(OnLockChange);
+  inherited;
+end;
+
+procedure TKeysFrame.Button1Click(Sender: TObject);
+begin
+  ShowMessage(SelectedKey.PublicKey.AsHexStr);
+end;
+
 { TFrame1 }
 
 procedure TKeysFrame.InitialiseFrame;
-var I: integer;
+var
+  I: Integer;
 begin
- inherited;
- KeyListBox.Clear;
- StateLabel.Text := yourWalletIs + ' ' + cStateText[MainDataModule.Wallet.State];
+  inherited;
+  KeyListBox.Clear;
+  StateLabel.Text := yourWalletIs + ' ' + cStateText
+    [MainDataModule.Wallet.State];
 
-  for I := 0 to MainDataModule.Wallet.Count -1  do
+  for I := 0 to MainDataModule.Wallet.Count - 1 do
   begin
-    KeyListBox.Items.Add(MainDataModule.Wallet[I].Name + ' (' +
-         cStateText[MainDataModule.Wallet[1].State] + ')');
+    KeyListBox.Items.Add(MainDataModule.Wallet[I].Name + ' (' + cStateText
+      [MainDataModule.Wallet[1].State] + ')');
   end;
 
   SelectedKey := nil;
 end;
 
-procedure TKeysFrame.KeyListBoxItemClick(const Sender: TCustomListBox; const
-    Item: TListBoxItem);
+procedure TKeysFrame.KeyListBoxItemClick(const Sender: TCustomListBox;
+const Item: TListBoxItem);
 begin
   SelectedIndex := Item.Index;
 end;
@@ -160,49 +182,54 @@ end;
 procedure TKeysFrame.NewKeyButtonClick(Sender: TObject);
 begin
 
-  FNewKeyInfo := FramestandKeys.New<TNewKeyFrame>(KeyListLayout);
-  FNewKeyInfo.Frame.OnCancel :=
-  procedure
-  begin
-    FNewKeyInfo.Hide(250,
-    procedure
+  FNewKeyInfo := FrameStandKeys.New<TNewKeyFrame>(KeyListLayout);
+  FNewKeyInfo.Frame.OnCancel := procedure
     begin
-      FNewKeyInfo.Close;
-      FNewKeyInfo := nil;
-    end);
-  end;
-  FNewKeyInfo.Frame.OnCreateKey :=
-  procedure(Value: Integer)
-  var lKey: IWalletKey;
+      FNewKeyInfo.Hide(250,
+        procedure
+        begin
+          FNewKeyInfo.Close;
+          FNewKeyInfo := nil;
+        end);
+    end;
+  FNewKeyInfo.Frame.OnCreateKey := procedure(Value: Integer)
+    var
+      lKey: IWalletKey;
       I: Integer;
-  begin
-    lKey := MainDataModule.Wallet[Value];
-    I := KeyListBox.Items.Add(lKey.Name + ' (' +
-         cStateText[lKey.State] + ')');
-    Assert(I = Value, 'Key index doesn''t match');
-
-    KeyListBox.ItemIndex := I;
-
-    FNewKeyInfo.Hide(250,
-    procedure
     begin
-      FNewKeyInfo.Close;
-      FNewKeyInfo := nil;
-    end);
+      lKey := MainDataModule.Wallet[Value];
+      I := KeyListBox.Items.Add(lKey.Name + ' (' + cStateText
+        [lKey.State] + ')');
+      Assert(I = Value, 'Key index doesn''t match');
 
-  end;
+      KeyListBox.ItemIndex := I;
+
+      FNewKeyInfo.Hide(250,
+        procedure
+        begin
+          FNewKeyInfo.Close;
+          FNewKeyInfo := nil;
+        end);
+
+    end;
 
   FNewKeyInfo.Show();
 end;
 
+procedure TKeysFrame.OnLockChange(const ALockState: Boolean);
+begin
+
+end;
+
 procedure TKeysFrame.PasswordButtonClick(Sender: TObject);
-var lOk, lExit:boolean;
-    Password1, Password2: string;
-    lInitialState: TEncryptionState;
+var
+  lOk, lExit: Boolean;
+  Password1, Password2: string;
+  lInitialState: TEncryptionState;
 begin
   if not MainDataModule.TryUnlock then
   begin
-    ShowMessage(SUnableToUnlockYourWallet);
+    ShowMessage(SPleaseUnlockYourWalletFirst);
     Exit;
   end;
 
@@ -218,19 +245,19 @@ begin
           Password1 := AValues[0];
           Password2 := AValues[1];
           if Password1 <> Password2 then
-             ShowMessage('Passwords do not match')
+            ShowMessage('Passwords do not match')
           else if Password1.StartsWith(' ') then
-             ShowMessage('Passwords cannot start with a space')
+            ShowMessage('Passwords cannot start with a space')
           else if Password1.EndsWith(' ') then
-             ShowMessage('Passwords cannot end with a space')
+            ShowMessage('Passwords cannot end with a space')
           else
-             lOK := True;
+            lOk := True;
         end
         else
-           lExit := True;
+          lExit := True;
       end);
-      if lExit then
-         Exit;
+    if lExit then
+      Exit;
   until lOk;
 
   lInitialState := MainDataModule.Wallet.State;
@@ -238,26 +265,27 @@ begin
   if MainDataModule.Wallet.ChangePassword(Password1) then
   begin
     if lInitialState = esPlainText then
-       ShowMessage(SYourWalletHasBeenEncrypted)
+      ShowMessage(SYourWalletHasBeenEncrypted)
     else
       ShowMessage(SYourPasswordHasBeenChanged)
   end
   else
   begin
     if lInitialState = esPlainText then
-       ShowMessage(SItHasBeenNotPossibleToEncryptYou)
+      ShowMessage(SItHasBeenNotPossibleToEncryptYou)
     else
       ShowMessage(SItHasNotBeenPossibleToChangeYour)
   end;
-
 
 end;
 
 procedure TKeysFrame.SetPasswordButtonText;
 begin
   case MainDataModule.Wallet.State of
-    esPlainText: PasswordButton.Text := SSetAPassword;
-    esEncrypted,esDecrypted: PasswordButton.Text := SChangeYourPassword;
+    esPlainText:
+      PasswordButton.Text := SSetAPassword;
+    esEncrypted, esDecrypted:
+      PasswordButton.Text := SChangeYourPassword;
   end;
 end;
 
@@ -265,9 +293,9 @@ procedure TKeysFrame.SetSelectedIndex(const Value: Integer);
 begin
   FSelectedIndex := Value;
   if FSelectedIndex > -1 then
-     SelectedKey := MainDataModule.Wallet[FSelectedIndex]
+    SelectedKey := MainDataModule.Wallet[FSelectedIndex]
   else
-     SelectedKey := nil;
+    SelectedKey := nil;
 end;
 
 procedure TKeysFrame.SetSelectedKey(const Value: IWalletKey);

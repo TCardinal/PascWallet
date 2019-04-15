@@ -17,13 +17,19 @@ type
     { Private declarations }
   public
     { Public declarations }
+    constructor Create(AComponent: TComponent); override;
   end;
 
 implementation
 
 {$R *.fmx}
 
-uses PascalCoin.RPC.Interfaces, PascalCoin.RPC.Shared;
+uses PascalCoin.RPC.Interfaces, PascalCoin.RPC.Test.DM, Spring.Container;
+
+constructor TNodeStatusFrame.Create(AComponent: TComponent);
+begin
+  inherited;
+end;
 
 procedure TNodeStatusFrame.GoClick(Sender: TObject);
 var lNodeStatus: IPascalCoinNodeStatus;
@@ -35,7 +41,7 @@ begin
     ListBox1.Clear;
     Memo1.Lines.Clear;
 
-    lAPI := RPCConfig.Container.Resolve<IPascalCoinAPI>;
+    lAPI := GlobalContainer.Resolve<IPascalCoinAPI>.URI(DM.URI);
 
     lNodeStatus := lAPI.nodestatus;
     Memo1.Lines.Text := lAPI.JSONResult.Format;

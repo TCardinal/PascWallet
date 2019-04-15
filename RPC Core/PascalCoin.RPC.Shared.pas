@@ -6,13 +6,12 @@ uses PascalCoin.RPC.Interfaces;
 
 function RPCConfig: IPascalCoinRPCConfig;
 
-
 procedure SetRPCConfig(Value: IPascalCoinRPCConfig);
 
 implementation
 
 var
-_RPCConfig: IPascalCoinRPCConfig;
+  _RPCConfig: IPascalCoinRPCConfig;
 
 function RPCConfig: IPascalCoinRPCConfig;
 begin

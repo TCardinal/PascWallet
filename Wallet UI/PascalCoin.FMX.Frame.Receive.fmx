@@ -1,0 +1,231 @@
+inherited ReceiveFrame: TReceiveFrame
+  Align = Client
+  Size.Height = 510.000000000000000000
+  object FooterLayout: TLayout
+    Align = Bottom
+    Position.Y = 460.000000000000000000
+    Size.Width = 320.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+  end
+  object MainLayout: TLayout
+    Align = Client
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 3.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Size.Width = 320.000000000000000000
+    Size.Height = 460.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object AccountLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 314.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object AccountLabel: TLabel
+        Align = Left
+        Size.Width = 120.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Receive to account'
+        TabOrder = 0
+      end
+      object AccountNumber: TComboBox
+        Align = Right
+        Position.X = 136.000000000000000000
+        Size.Width = 178.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        OnChange = AccountNumberChange
+      end
+    end
+    object PayloadLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 72.000000000000000000
+      Size.Width = 314.000000000000000000
+      Size.Height = 29.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object PayloadLabel: TLabel
+        Align = Left
+        Size.Width = 120.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Payload'
+        TabOrder = 0
+      end
+      object Payload: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Right
+        TabOrder = 1
+        Position.X = 136.000000000000000000
+        Size.Width = 178.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        OnChange = PayloadChange
+      end
+    end
+    object AmountLayout: TLayout
+      Align = Top
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 38.000000000000000000
+      Size.Width = 314.000000000000000000
+      Size.Height = 29.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object AmountLabel: TLabel
+        Align = Left
+        Size.Width = 120.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Amount'
+        TabOrder = 0
+      end
+      object Amount: TNumberBox
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Right
+        TabOrder = 1
+        Cursor = crIBeam
+        DecimalDigits = 4
+        Max = 1000000.000000000000000000
+        ValueType = Float
+        TextSettings.HorzAlign = Trailing
+        Position.X = 181.000000000000000000
+        VertIncrement = 1.000000000000000000
+        Size.Width = 133.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        OnChange = AmountChange
+      end
+      object PascLabel: TLabel
+        Align = Right
+        StyledSettings = [Family, Size, FontColor]
+        Margins.Left = 3.000000000000000000
+        Margins.Right = 3.000000000000000000
+        Position.X = 141.000000000000000000
+        Size.Width = 37.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.HorzAlign = Trailing
+        Text = 'PASC'
+        TabOrder = 2
+      end
+    end
+    object QRCodeLayout: TLayout
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 209.000000000000000000
+      Size.Width = 314.000000000000000000
+      Size.Height = 248.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object QRCodeImage: TImage
+        MultiResBitmap = <
+          item
+          end>
+        Align = Center
+        Size.Width = 200.000000000000000000
+        Size.Height = 200.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object PayloadAdvanced: TLayout
+      Align = Top
+      Position.X = 3.000000000000000000
+      Position.Y = 106.000000000000000000
+      Size.Width = 314.000000000000000000
+      Size.Height = 103.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      object PayloadEncodeLayout: TLayout
+        Align = Top
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 314.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object PayloadEncodeLabel: TLabel
+          Align = Left
+          Size.Width = 120.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Encode Payload as'
+          TabOrder = 0
+        end
+        object PayloadEncode: TComboBox
+          Align = Right
+          Position.X = 136.000000000000000000
+          Size.Width = 178.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          OnChange = PayloadEncodeChange
+        end
+      end
+      object PayloadEncryptLayout: TLayout
+        Align = Top
+        Margins.Bottom = 5.000000000000000000
+        Position.Y = 34.000000000000000000
+        Size.Width = 314.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        object PayloadEncryptLabel: TLabel
+          Align = Left
+          Size.Width = 120.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Encrypt Payload with'
+          TabOrder = 0
+        end
+        object PayloadEncrypt: TComboBox
+          Align = Right
+          Position.X = 136.000000000000000000
+          Size.Width = 178.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          OnChange = PayloadEncryptChange
+        end
+      end
+      object PayloadPasswordLayout: TLayout
+        Align = Top
+        Margins.Bottom = 5.000000000000000000
+        Position.Y = 68.000000000000000000
+        Size.Width = 314.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object PasswordLabel: TLabel
+          Align = Left
+          Size.Width = 120.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Payload Password'
+          TabOrder = 0
+        end
+        object PayloadPassword: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Right
+          TabOrder = 1
+          Position.X = 136.000000000000000000
+          Size.Width = 178.000000000000000000
+          Size.Height = 29.000000000000000000
+          Size.PlatformDefault = False
+          OnChange = PayloadPasswordChange
+        end
+      end
+    end
+  end
+end

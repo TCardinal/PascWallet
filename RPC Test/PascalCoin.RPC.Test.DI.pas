@@ -9,7 +9,6 @@ procedure RegisterStuff(AContainer: TContainer);
 implementation
 
 uses PascalCoin.RPC.Interfaces,
-  PascalCoin.RPC.Shared, PascalCoin.RPC.Config,
   PascalCoin.HTTPClient.Delphi, PascalCoin.RPC.Client, PascalCoin.RPC.Account,
   PascalCoin.RPC.API,
   PascalCoin.KeyTool, PascalCoin.StreamOp,
@@ -17,10 +16,7 @@ uses PascalCoin.RPC.Interfaces,
   PascalCoin.Utils.Interfaces, PascalCoin.Utils.Classes;
 
 procedure RegisterStuff(AContainer: TContainer);
-var lConfig: TPascalCoinRPCConfig;
 begin
-  lConfig := TPascalCoinRPCConfig.Create;
-  AContainer.RegisterInstance<IPascalCoinRPCConfig>(lConfig).AsSingleton;
 
   AContainer.RegisterType<IKeyTools, TPascalCoinKeyTools>;
   AContainer.RegisterType<IStreamOp, TStreamOp>;
@@ -33,10 +29,7 @@ begin
   AContainer.RegisterType<IWallet, TWallet>;
   AContainer.RegisterType<IWalletKey, TWalletKey>;
 
-
   AContainer.Build;
-  (lConfig as IPascalCoinRPCConfig).Container := AContainer;
-  SetRPCConfig(lConfig);
 end;
 
 end.

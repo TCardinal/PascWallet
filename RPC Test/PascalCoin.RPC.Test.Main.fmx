@@ -30,7 +30,7 @@ object Form1: TForm1
         Margins.Right = 3.000000000000000000
         Position.X = 3.000000000000000000
         Position.Y = 3.000000000000000000
-        Size.Width = 73.000000000000000000
+        Size.Width = 38.000000000000000000
         Size.Height = 35.000000000000000000
         Size.PlatformDefault = False
         Text = 'Node'
@@ -39,9 +39,9 @@ object Form1: TForm1
       object NodeSelect: TComboBox
         Align = Left
         Margins.Right = 3.000000000000000000
-        Position.X = 79.000000000000000000
+        Position.X = 44.000000000000000000
         Position.Y = 3.000000000000000000
-        Size.Width = 202.000000000000000000
+        Size.Width = 282.000000000000000000
         Size.Height = 35.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
@@ -49,7 +49,7 @@ object Form1: TForm1
       end
       object NodeURLLabel: TLabel
         Align = Left
-        Position.X = 284.000000000000000000
+        Position.X = 329.000000000000000000
         Position.Y = 3.000000000000000000
         Size.Width = 405.000000000000000000
         Size.Height = 35.000000000000000000
@@ -115,6 +115,42 @@ object Form1: TForm1
         TabOrder = 4
         Text = 'Wallet'
         OnClick = WalletButtonClick
+      end
+      object OpsButton: TButton
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 335.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 34.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 5
+        Text = 'Operations'
+        OnClick = OpsButtonClick
+      end
+      object RawOpButton: TButton
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 418.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 34.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 7
+        Text = 'Raw Ops'
+        OnClick = RawOpButtonClick
+      end
+      object PayloadButton: TButton
+        Align = Left
+        Margins.Right = 3.000000000000000000
+        Position.X = 501.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 34.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 8
+        Text = 'Payload'
+        OnClick = PayloadButtonClick
       end
     end
     object ContentLayout: TLayout
